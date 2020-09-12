@@ -1,3 +1,4 @@
+
 ## Android的UiAutomator2驱动
 
 Appium对Android应用程序自动化的最大支持是通过`UiAutomator2`driver实现的。_(是Appium的新手? 请阅读 [Appium drivers介绍](#TODO))_。这个驱动程序是利用Google的 [UiAutomator2](https://developer.android.com/training/testing/ui-automator.html) 技术来促进实现设备或模拟器上的自动化。
@@ -53,9 +54,6 @@ UiAutomator2 driver支持许多标准的 [Appium capabilities](/docs/en/writing-
   
 1. 设置`ANDROID_HOME`环境变量以匹配此路径。例如，如果您将SDK安装到`/usr/local/adt`，则通常在`sdk`其中包含SDK文件的文件夹中。在这种情况下，在Mac和Linux，下面一行添加到您的登录脚本（例如， `~/.bashrc`，`~/.bash_profile`等...）：
   
-    ```
-    export ANDROID_HOME="/usr/local/adt/sdk"
-    ```
 
    在Windows上，按照与之前相同的步骤在控制面板中设置环境变量。
    
@@ -83,3 +81,4 @@ UiAutomator2 driver支持许多标准的 [Appium capabilities](/docs/en/writing-
 * 确保禁用设置中的“验证应用程序”，以允许Appium的助手应用程序运行而无需手动干预。
 
 （对于某些特定命令，设备可能需要root，尽管这不是必须的。）
+

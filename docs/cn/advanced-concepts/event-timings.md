@@ -40,6 +40,9 @@ Appium 提供了一个能力，可以获取关于启动信息和命令执行时�
 Appium团队维护了一个事件计时解析工具，这个工具可以解析事件计时的输出，然后生成各种报告：
 [appium/appium-event-parser](https://github.com/appium/appium-event-parser).
 
+## 增加自定义事件
 
+从Appium 1.16.0版本开始，你可以增加自定义事件。
+你可以使用[Log Event API](/commands/session/events/log-event)向Appium服务器发送自定义事件名，服务器会记录时间戳。后续可以通过[Get events](/commands/session/events/get-events)命令获取自定义事件的时间戳。
 
 本文由 yanqiang@douban.com 翻译，由 [lihuazhang](https://github.com/lihuazhang) 校验。

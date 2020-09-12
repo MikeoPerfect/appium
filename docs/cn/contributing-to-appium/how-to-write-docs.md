@@ -46,10 +46,3 @@
 
 要在 [appium.io](https://appium.io) 上发布文档，请参阅 [appium.io](https://github.com/appium/appium.io).
 
----
-EOF.
-
-本文由 [ZhaoC](https://github.com/ZhaoC) 翻译，由 [oscarxie](https://github.com/oscarxie) 校验。
-
-翻译：@[Pandorym](https://github.com/Pandorym)
-Last english version: be2acb207c07503b9b1af3ba9315e7bee092a55a, Feb 12, 2018
