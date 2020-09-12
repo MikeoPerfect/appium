@@ -1,66 +1,37 @@
-## The UiAutomator Driver for Android
 
-Appium's older support for automating Android apps is via the `UiAutomator`
-driver.  _(New to Appium? Read our [introduction to Appium drivers](#TODO))_.
-This driver leverages Google's
-[UiAutomator](https://developer.android.com/training/testing/ui-automator.html)
-technology to launch automation sessions on a device.
+## Android的UiAutomator驱动
 
-Development of the UiAutomator driver happens at the
-[appium-android-driver](https://github.com/appium/appium-android-driver)
-repo.
+Appium对Android应用程序自动化的较早支持是通过`UiAutomator` driver实现的。_(New to Appium对Appium不熟悉? 请阅读 [Appium drivers介绍](#TODO))_。这个driver是利用了Google的[UiAutomator](https://developer.android.com/training/testing/ui-automator.html)技术实现了在设备上启动自动化。
 
-We recommend you upgrade to the [UiAutomator2 Driver](android-uiautomator2.md)
-and use that driver instead, since this driver will not be supported moving
-forward.
+在[appium-android-driver](https://github.com/appium/appium-android-driver) 的收购了UiAutomator driver后，driver开始发展。
 
-### Requirements and Support
+我们建议您升级到 [UiAutomator2 Driver](android-uiautomator2.md)，并使用该driver，因为该driver的版本是向前兼容旧版本的。
 
-In addition to Appium's general requirements:
+### 要求和支持
 
-* Java 7 installed and configured correctly for your platform
-* Mac, Windows, or Linux OS with the ability to run the Android SDK
+除了Appium的一般要求外，还需要具备以下条件:
 
-### Usage
+* Java 7正确安装和配置在你的测试平台上
+* 具备能运行Android SDK的Mac, Windows, 或者Linux OS 
 
-The way to start a session using the UiAutomator driver is to include the
-`platformName` [capability](#TODO) in your [new session request](#TODO), with
-the value `Android`. Of course, you must also include appropriate
-`platformVersion`, `deviceName`, and `app` capabilities, at a minimum. In the
-case of this driver, for Appium versions below `1.14.0` no `automationName`
-capability should be used, while for version `1.14.0` and above the `automationName`
-should be set to `UiAutomator1`.
+### 使用
 
-It is highly recommended to also set the `appPackage` and `appActivity`
-capabilities in order to let Appium know exactly which package and activity
-should be launched for your application. Otherwise, Appium will try to
-determine these automatically from your app manifest.
+使用UiAutomator driver启动会话的方法是在[新的会话请求](#TODO)的[capability](#TODO)参数中设置属性为`platformName`，对应的值为`Android`。当然了，capabilities的参数还必须包含有其他正确的参数信息，包括`platformName` (=`Android`), `platformVersion`, `deviceName`, 和 `app`这些参数。 在使用此driver时，对于低于`1.14.0`的Appium版本，无法使用`automationName`功能，而对于高于 `1.14.0` 和更高版本Appium的 `automationName`参数，应将其设置为 `UiAutomator1`。
+
+强烈建议也设置`appPackage`和`appActivity`功能参数，以便让Appium确切知道为您的应用程序启动哪个包和activity。否则，Appium会尝试从您的应用清单中自动确定这些内容。
 
 ### Capabilities
 
-The UiAutomator driver supports a number of standard [Appium
-capabilities](/docs/en/writing-running-appium/caps.md), but has an additional
-set of capabilities that modulate the behavior of the driver. These can be
-found currently at the [Android
-section](/docs/en/writing-running-appium/caps.md#android-only) of the
-aforementioned doc.
+ UiAutomator driver支持许多标准的[Appium capabilities](/docs/en/writing-running-appium/caps.md)，但也有一组额外的功能，这些功能可调节driver的行为。这些可以在前面提到的文档的[Android部分](https://github.com/testerhome/appium/blob/master/docs/en/writing-running-appium/caps.md#android-only)中找到。
 
-For web tests, to automate Chrome instead of your own application, leave the
-`app` capability empty and instead set the `browserName` capability to
-`Chrome`. Note that you are responsible for ensuring that Chrome is on the
-emulator/device, and that it is of a version compatible with Chromedriver.
+对于web端的测试，如果要去自动化驱动Chrome而不是应用程序，则需要将`app` 功能参数保留为空，并且将`browserName`功能参数设置为 `Chrome`。请注意，您有责任确保Chrome是在模拟器/设备上，并且它的版本与Chromedriver兼容。
 
 
-### Commands
+### 指令
 
-To see the various commands Appium supports, and specifically for information
-on how the commands map to behaviors for the UiAutomator driver, see the [API
-Reference](#TODO).
+需要查看Appium支持的各种命令，特别是关于命令如何映射到UiAutomator driver的行为的信息，请参阅[API参考](#TODO)。
 
 
-### Setup
+### 设置
 
-Given that the setup instructions for this driver and the newer UiAutomator2
-Driver are identical, please refer to the system, emulator, and device setup
-instructions on the [UiAutomator2
-Driver](/docs/en/drivers/android-uiautomator2.md) doc.
+鉴于此driver与较新的UiAutomator2 driver的设置说明相同，请参阅[UiAutomator2 Driver](/docs/en/drivers/android-uiautomator2.md) 文档中的系统、仿真器和设备设置说明。
