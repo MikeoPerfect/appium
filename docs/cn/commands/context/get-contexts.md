@@ -1,6 +1,6 @@
 # 获取所有Context
 
-获取所有可用的context
+获取所有可以自动化的context
 
 ## 使用示例
 
