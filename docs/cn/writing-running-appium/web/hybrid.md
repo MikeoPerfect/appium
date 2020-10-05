@@ -14,7 +14,7 @@ Appium 的核心理念之一是，你不应该为了测试而改变被测的应�
     * 这将返回一个包含我们可以访问的上下文的列表，例如 `'NATIVE_APP'` 或 `'WEBVIEW_1'`
 1. 使用想要访问的上下文的 id [设置上下文](/docs/cn/commands/context/set-context.md)
     * 这会使你的 Appium 会话进入一个模式，
-		处于该模式时所有命令被解释为意图自动化 Web 视图，而不是应用程序的原生部分。
+		处于该模式时所有命令被解释为用来自动化 Web 视图，而不是应用程序的原生部分。
 		例如，如果你运行 `getElementByTagName`，它将操作 Web 视图中的 DOM，而不是返回原生元素。
 		当然，某些 WebDriver 方法只在一个或另一个上下文中有效，所以在错误的上下文中执行时你会收到一个报错信息。
 1. 想要停止对 Web 视图的上下文中自动化，并返回到应用程序的原生部分，简单的 [设置上下文](/docs/cn/commands/context/set-context.md) 即可。将上下文赋值为原生上下文的 id（通常是 `'NATIVE_APP'`）便可离开 Web 上下文，重新使用原生指令。
@@ -157,7 +157,7 @@ Appium 使用自定义的远程调试器建立连接去与 web 视图交互。�
 
 当对真实的 iOS 设备执行时，Appium 不能直接访问 web 试图。所以必须通过 USB 线缆连接设备。从版本 1.15 开始，Appium 可以通过 [appium-ios-device](https://github.com/appium/appium-ios-device) 通过本机建立连接。 只有版本低于 1.15 的Appium才需要使用 [ios-webkit-debugger-proxy](https://github.com/google/ios-webkit-debug-proxy)  建立连接。
 
-关于如何安装并运行 `ios-webkit-debugger-proxy` 的教学，请查看 [iOS webkit 调试代理](/writing-running-appium/web/ios-webkit-debug-proxy.md) 文档
+关于如何安装并运行 `ios-webkit-debugger-proxy` 的教学，请查看 [iOS webkit 调试代理](/docs/cn/writing-running-appium/web/ios-webkit-debug-proxy.md) 文档
 
 现在你可以开启 Appium 测试会话，并遵循上面的通用说明。
 

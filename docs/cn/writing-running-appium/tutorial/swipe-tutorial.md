@@ -4,11 +4,7 @@
 
 Appium在iOS上使用 XCUITest driver，在Android上使用UIAutomator2, Espresso。Android上默认的driver是UIAutomator2。
 iOS环境的默认的驱动设置下，我们可以看到位于可见屏幕之外的元素，但无法与之交互。我们可以检查这些元素的值，但触碰(touch)操作却不可靠。
-Android上UIAutomator2的默认设置下，你只能看到当前屏幕的元素。
-
-Android 'Espresso' `待补充`. 
-
-这些表现以及限制来自Apple的XCUITest框架和Android的UIAutomator2框架本身。
+Android上UIAutomator2的默认设置下，你只能看到当前屏幕的元素。Android 'Espresso' `待补充`。这些表现以及限制来自Apple的XCUITest框架和Android的UIAutomator2框架本身。
 
 当操作元素时，你应该始终记得这些不同之处。
 

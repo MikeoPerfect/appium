@@ -29,7 +29,7 @@ js.executeScript("mobile: swipe", params);
 
 ### mobile: scroll
 
-滚动元素或整个屏幕。支持不同的滚动策略。该方法提供了4个可选择滑动策略：按照顺序有“name”，“direction”，“predicateString”或“toVisible”。所有的滑动策略都是排他性的，一次滑动只能选择一个策略。你可以使用`mobile:scroll`来对表格中或者集合视图中的某个已知控件进行精确的滚动操作。然而目前有一个已知的局限问题：如果需要在父容器上执行太多的滚动手势来达到必要的子元素（其中几十个），则方法调用可能会失败。
+滚动元素或整个屏幕。支持不同的滚动策略。该方法提供了4个可选择滑动策略：按照顺序有“name”，“direction”，“predicateString”或“toVisible”。所有的滑动策略都是排他性的，一次滑动只能选择一个策略。你可以使用`mobile:scroll`来对表格中或者集合视图中的某个已知控件进行精确的滚动操作。然而目前有一个已知的局限问题：如果需要在父容器上执行太多的滚动手势到达指定的某个子元素（几十个子元素），则方法调用可能会失败。
 
 #### 支持参数
 
@@ -86,7 +86,7 @@ driver.execute('mobile: doubleTap', {element: element.value.ELEMENT});
 
 ### mobile: touchAndHold
 
-在指定控件上或屏幕上长按的手势操作。
+在指定控件或屏幕上长按的手势操作。
 
 #### 支持参数
 
@@ -174,7 +174,7 @@ js.executeScript("mobile: dragFromToForDuration", params);
 
 ### mobile: selectPickerWheelValue
 
-选择下一个或上一个picker wheel的值。 如果这些值是动态的，那么这个方法是能起作用的。XCTest有一个BUG就是你并不能知道要选择哪一个或者当前的选择区域是否生效。
+选择下一个或上一个picker wheel的值。 如果这些值是动态的，那么这个方法是能起作用的。XCTest有一个BUG，就是你并不能知道要选择哪一个，或者当前的选择区域是否生效。
 
 #### 支持参数
 

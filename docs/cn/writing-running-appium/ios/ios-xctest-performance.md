@@ -1,6 +1,6 @@
 ## 自动化性能度量
 
-Apple 提供了一套包含相当丰富的桌面和手机应用性能测量功能的工具 `instruments` 。收集到的数据可以用 `Instruments.app`显示出来，这是 Xcode DevTools 的一部分。Xcode 默认提供了几个度量模板，比如 `Activity Monitor` 或 `Time Profiler`，但是人们也可以创建自己的配置文件，并自定义选择一组衡量标准来记录或可视化。读 https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/InstrumentsUserGuide 去获取更多可用工具的详细功能概述。
+Apple 提供了一套工具`instruments`，这套工具有着非常多的功能，可以用来测量桌面端和手机端应用的性能。收集到的数据可以用 `Instruments.app`显示出来，这是 Xcode DevTools 的一部分。Xcode 默认提供了几个度量模板，比如 `Activity Monitor` 或 `Time Profiler`，同时我们也可以创建自己的配置文件，并自定义选择一组衡量标准来记录或可视化。读 https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/InstrumentsUserGuide 去获取更多可用工具的详细功能概述。
 
 ### mobile: startPerfRecord
 
@@ -13,7 +13,7 @@ Apple 提供了一套包含相当丰富的桌面和手机应用性能测量功�
  * _pid_: 测量性能进程的ID。将其设置成 `current` ，以便我们只衡量进程的性能，该进程属于当前活动的应用程序(这可能对一些配置文件不起作用)。 如果进程ID未设置(默认设置)，将测量设备上运行的所有进程的性能。当待测设备是模拟器时， 设置进程ID可能需要使用sudo特权启动`instruments`工具，这是不受支持的，并且会抛出超时异常。
  
  #### 用法示例
- 
+
 ```java
 // Java
 Map<String, Object> args = new HashMap<>();
@@ -26,7 +26,7 @@ driver.executeScript("mobile: startPerfRecord", args);
     
 此命令停止被测设备上给定配置名称(模板)的性能记录器，并以压缩格式返回收集到的数据或上传到远程服务器上。如果`startPerfRecord`命令未被调用则会抛出异常。
 
-重要提示：预期在 Appium 服务器命令行设置合适的[安全标记](/docs/cn/writing-running-appium/security.md)，以度量模拟器性能，因为`instruments`工具记录在主机上运行的所有进程。
+重要提示：为了度量模拟器性能，需要在 Appium 服务器命令行设置合适的[安全标记](/docs/cn/writing-running-appium/security.md)，因为`instruments`工具会记录在主机上运行的所有进程。
 
 #### 支持参数
  * _profileName_: 之前已经运行监视的现有性能模板的名称。默认是`Activity Monitor`。

@@ -1,4 +1,4 @@
-## 自动化测试移动网络应用
+## 自动化测试移动端 web 应用
 
 如果你有兴趣在 iOS 系统上的 Safari 浏览器或者 Android 系统上的 Chrome 浏览器进行网页自动化的话
 ，Appium可以帮到你。你只要正常地写 WebDriver 测试，通过对 desired capabilities 进行一些特殊的设置，可以把 Appium 当成 Selenium 服务来运行。
@@ -91,9 +91,9 @@ capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 11");
 	* 在 iOS 设备上开启 **web inspector**（设置>safari>高级）
 * 只有 `Instruments`时
 	* 安装好 **ios-webkit-debug-proxy**，运行并在 27753 接口开启监听。
-		(详情见以下文档 [hybrid docs](/docs/en/writing-running-appium/web/hybrid.md#execution-against-an-ios-real-device) )
+		(详情见以下文档 [hybrid docs](/docs/cn/writing-running-appium/web/hybrid.md#execution-against-an-ios-real-device) )
 	* 确保 `SafariLauncher` 能正常工作 
-		(详情见以下文档 [SafariLauncher docs](/docs/en/drivers/ios-uiautomation-safari-launcher.md) )
+		(详情见以下文档 [SafariLauncher docs](/docs/cn/drivers/ios-uiautomation-safari-launcher.md) )
 
 ### 运行你的测试
 

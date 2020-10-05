@@ -1,16 +1,16 @@
 # 图片对比功能
-本篇描述Appium支持的图片对比的一系列功能。这些功能依赖OpenCV 3动态库，图片对比在所有的driver中都可以调用。并且，每个功能都可以可视化展示对比结果，所以你可以通过跟踪不同参数的执行结果，对比得到最好的一个。
+本篇描述了 Appium 里图片对比的一系列功能。图片对比在所有的driver中都可以使用，这些功能依赖 OpenCV3 原生库。并且，每个功能都可以可视化展示对比结果，所以你可以通过不断地调参，得到最好的对比结果。
 
 ## 前置条件
-- OpenCV 3+ 的本地库文件
-- 安装npm [opencv4nodejs](https://github.com/justadudewhohacks/opencv4nodejs) 模块: `npm i -g opencv4nodejs`. 安装 opencv4nodejs 默认会从源下载所需的OpenCV有关的库文件，但是需要本地的开发工具能够访问到它们。
+- OpenCV 3+ 的原生库文件
+- 安装npm 模块[opencv4nodejs](https://github.com/justadudewhohacks/opencv4nodejs) : `npm i -g opencv4nodejs`。 安装 opencv4nodejs 默认会从源下载所需的OpenCV有关的库文件，但是需要本地安装了开发工具。
 - Appium Server 1.8.0+
 
 
 ## 目的
-图片对比方便运用在许多自动化的任务中，比如：
+在许多自动化的任务中，图片对比会更加方便，比如：
 - 判定给出的图片当前是否在屏幕上
-- 计算重新定义过的屏幕对象的坐标值
+- 计算事先定义好的屏幕对象的坐标值
 - 判定当前屏幕对象的状态是否是期望的状态
 
 ## 基于特征的对比
@@ -196,6 +196,6 @@ assert File.size? 'get_images_result_visual.png'
 
 ### Visualization Example
 ### 可视化示例
-![相似度计算示例](https://user-images.githubusercontent.com/7767781/38780635-27198346-40da-11e8-803d-1ec4afd3c3aa.png)
+![相似度匹配示例](https://user-images.githubusercontent.com/7767781/38780635-27198346-40da-11e8-803d-1ec4afd3c3aa.png)
 
 两张图片的相似度得分在0.98以上。
