@@ -93,11 +93,10 @@
 |`--localizable-strings-dir`|en.lproj| 【弃用】 - （仅 iOS）Localizable.strings 与目录的相对路径         | `--localizable-strings-dir en.lproj` |
 |`--show-ios-log`|false| 【弃用】 - （仅 iOS）如果设置了，iOS 系统日志将会输出到终端 ||
 |`--relaxed-security`|false|禁用额外的安全检查，因此可以使用支持此选项的驱动程序提供的某些高级功能。只有当所有客户端都位于可信任网络中，才启用它；如果客户端可能会突破会话沙箱，则不应该启用它。||
+|`--deny-insecure`|[]|设置禁用的功能列表，即便 --relaxed-security 开关已经打开，而且功能名字也在 --allow-insecure 参数中设置了，也不会启用。设置的值是以逗号为分隔符的列表或是按行分隔的文本路径。可参考 [security doc](/docs/cn/writing-running-appium/security.md)|`--deny-insecure=foo,bar`|
+|`--log-filters`|null|设置包含一个或多个日志筛选规则的JSON文件路径。该功能在需要混淆敏感信息场景下非常有用，比如混淆那些可能存在于日志中的敏感信息，如密码或访问令牌。日志筛选的具体规则在 https://github.com/appium/appium-support/blob/master/lib/log-internal.js. 如果任何规则有问题，在服务器启动时将引发异常。|`--log-filters=/home/config.json`|
 
 ---
 EOF.
 
-本文由 [testly](https://github.com/testly) 翻译，由 [lihuazhang](https://github.com/lihuazhang) 校验。
-
-翻译：@[Pandorym](https://github.com/Pandorym)
-Last english version: 1d2f4d62ac83cc37eae848c0067722d5727863da, May 10, 2019
+本文由 [testly](https://github.com/testly) @[Pandorym](https://github.com/Pandorym) 和 [windanchaos](https://gitee.com/windanchaos)翻译，由 [lihuazhang](https://github.com/lihuazhang) 校验。

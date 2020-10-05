@@ -23,4 +23,3 @@ driver.executeScript("mobile: performEditorAction", ImmutableMap.of("action", "G
 # Python
 driver.execute_script('mobile: performEditorAction', {'action': 'previous'})
 ```
-

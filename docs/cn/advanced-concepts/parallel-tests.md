@@ -1,35 +1,39 @@
 ## Android 并发测试
 
-Appium 给用户提供了在一个机器上启动多个 Android sessions 的方案。该方案只需要通过不同参数来启动的多个 Appium 服务。
+Appium 给用户提供了在单机上启动多个 Android sessions 的方案。可以使用任意可用端口启动 Appium 服务。
 
-以下是启动多个 Android 会话的一些重要参数：
+注意，在*同一设备上*不能运行多个 session
 
-- `-p` Appium 主要端口
-- `-U` 设备 id
-- `-bp` Appium bootstrap 端口
-- `--chromedriver-port` chromedriver 端口 (若是在使用 webviews 或 chrome)
-- `--selendroid-port` selendroid 端口 (若是在使用 selendroid)
+以下是启动多个 Android sessions 的一些重要参数：
 
-更多相关参数的信息可以参考 [这里](../writing-running-appium/caps.md) 。
-
-如果我们有两台设备，且他们的设备 id 分别为 43364 和 32456，我们可以通过以下命令启动两个不同的 Appium 服务器：
-
-`node . -p 4492 -bp 2251  -U 32456`
-
-`node . -p 4491  -bp 2252 -U 43364`
-
-只要你的 Appium 与 Appium bootstrap 的端口在 0 到 65536 之间，且端口号并不相同，这样两个 Appium 服务器就不会去监听同一个端口。确保通过 -u 参数标志的 id 与对应的设备 id 是一致的。这就是 Appium 能知道设备之间是如何通信的原因，因此必须保证参数准确无误。
-
-如果你使用 chromedriver 或 selendroid，记得确保服务器的端口号是独一无二的。
-
-如果你使用 [appium-uiautomator2-driver](https://github.com/appium/appium-uiautomator2-driver)，
-需要给 systemPort 这个 capability 配置为不同的系统端口。因为有时候如果没有使用不同的端口，会出现冲突，比如[这个问题](https://github.com/appium/appium/issues/7745).
+- `udid` 设备id
+- `chromedriverPort` chromedriver 端口(如果使用 webviews or chrome)
+- `mjpegServerPort` 如果使用 [appium-uiautomator2-driver](https://github.com/appium/appium-uiautomator2-driver)，需要为每个并发 session 设置一个唯一的 MJPEG 服务端口，否则可能会有端口冲突问题，如[这个问题](https://github.com/appium/appium/issues/7745)。
+- `systemPort` 如果使用 [appium-uiautomator2-driver](https://github.com/appium/appium-uiautomator2-driver)，需要为每个并发 session 设置一个唯一的系统端口，否则可能会有端口冲突问题，如[这个问题](https://github.com/appium/appium/issues/7745)。
 
 ### iOS 并发测试
 
-十分不幸，目前并不能在本地运行 iOS 的并发测试。iOS 同一时间只能启动一个模拟器，不像 Andoid 可以同时多个模拟器去运行测试。
+Xcode9 以来，Appium 支持在真机和模拟器上进行并发测试。可以使用任意可用端口启动 Appium 服务。
 
-如果你想运行 iOS 的并发测试，你需要使用 Sauce 上传你的 Appium 测试脚本，然后就可以运行多台 iOS 和 Android 的并发测试，只要你的账号允许。查看更多相关信息可以查看 [这里](https://docs.saucelabs.com/tutorials/appium/)。
+以下是在 iOS 上启动多个 session 的重要参数：
 
+#### 真机
 
-本文由 [thanksdanny](https://testerhome.com/thanksdanny) 翻译，由 [lihuazhang](https://github.com/lihuazhang) 校验。
+- `udid` 每个并发 session 必须设置唯一的设备UDID。
+- `wdaLocalPort` 每个并发 session 必须设置唯一的端口号，默认的端口号是8100。
+- `derivedDataPath` 需要为每个 driver 实例设置唯一的导出数据根路径，这样有助于避免冲突，以及加快并发执行速度。
+
+#### 模拟器
+
+- 为每个并发 session 设置唯一的模拟器 UDID 或者一组唯一的 `deviceName` 和 `platformVersion`。`udid`，模拟器 UDID(可以从 xcrun simctl list 中获取)，`deviceName` 和 `platformVersion`，可以定位到对应设备名和平台版本号的模拟器。
+- `wdaLocalPort` 每个并发 session 必须设置唯一的端口号，默认的端口号是8100。
+- `derivedDataPath` 需要为每个 driver 实例设置唯一的导出数据根路径，这样有助于避免冲突，以及加快并发执行速度。
+
+### 故障排查
+
+在 Jenkins 上运行时，当在相同机器上运行多个并发测试 jobs 时， 需要注意[ProcessTreeKiller](https://wiki.jenkins.io/display/JENKINS/ProcessTreeKiller)。
+如果在一个测试 job 里使用大量模拟器，当第一个测试结束，Jenkins 可能会 kill 掉所有模拟器，这会导致剩下的测试 jobs 报错！
+
+使用 `BUILD_ID=dontKillMe` 来防止这个问题发生。
+
+本文由 [nicole1010](https://github.com/nicole1010) 翻译，由 [lihuazhang](https://github.com/lihuazhang) 校验。

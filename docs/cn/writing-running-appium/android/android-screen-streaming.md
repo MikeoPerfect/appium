@@ -38,8 +38,6 @@ args.put("bitRate", 500000);
 driver.executeScript("mobile: startScreenStreaming", args);
 ```
 
-#### 
-
 ```python
 # Python
 driver.execute_script('mobile: shell', {
@@ -61,8 +59,6 @@ driver.execute_script('mobile: shell', {
 // Java
 driver.executeScript("mobile: stopScreenStreaming");
 ```
-
-#### 
 
 ```python
 # Python

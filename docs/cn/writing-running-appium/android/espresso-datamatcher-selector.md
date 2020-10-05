@@ -100,6 +100,7 @@ onData(hasEntry("title", "textClock")
 
 `AdapterView`如果“活动”只有一个适配器视图，则无需定位父对象。在这种情况下，可以将其省略。
 
+
 ```js
 driver.findElement("-android datamatcher", JSON.stringify({
     "name": "hasEntry",
@@ -127,6 +128,7 @@ driver.find_element_by_android_data_matcher({
 ### 编写选择器
 
 数据匹配器选择器使用Java reflection来调用用于定位适配器对象的[Hamcrest匹配器](http://hamcrest.org/JavaHamcrest/javadoc/1.3/org/hamcrest/Matchers.html)。匹配器为JSON格式，并且具有此格式
+
 
 ```js
 {
@@ -205,4 +207,3 @@ onData(
 
 - [Espresso中的视图与数据说明](https://medium.com/androiddevelopers/adapterviews-and-espresso-f4172aa853cf)
 - [Espresso清单](https://developer.android.com/training/testing/espresso/lists)
-

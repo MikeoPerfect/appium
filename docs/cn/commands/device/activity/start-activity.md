@@ -1,6 +1,6 @@
 # 启动Activity
 
-通过提供package名和Activity名来启动一个Android Activity
+通过提供包名和Activity名来启动一个Android Activity
 ## 使用样例
 
 ```java
@@ -93,7 +93,7 @@ driver.StartActivity("com.example", "ActivityName");
 
 ### JSON参数
 
-|name|类型|描述|
+|名称|类型|描述|
 |----|----|-----------|
 | appPackage | `string` | [包](https://developer.android.com/reference/java/lang/Package.html)名 |
 | appActivity | `string` | [Activity](https://developer.android.com/reference/android/app/Activity.html)名 |

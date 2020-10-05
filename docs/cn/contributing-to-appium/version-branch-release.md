@@ -51,5 +51,3 @@ Appium 使用 [Trunk Based Development](http://paulhammant.com/2013/04/05/what-i
    11. 一旦 20.2 发布完毕，循环就会重复。
 
 本文由 [大东](https://testerhome.com/Anikikun) 翻译，由 [lihuazhang](https://github.com/lihuazhang) 校验。
-
-

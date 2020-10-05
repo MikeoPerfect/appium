@@ -1,0 +1,110 @@
+# 获得可用的日志类型
+
+获得所有可用的日志类型（*<u>英文文档中这部分与get-log重复，应该是复制粘贴错误。前面内容为译者填写</u>*）
+
+## 使用样例
+
+```java
+// Java
+Set<String> logTypes = driver.manage().logs().getAvailableLogTypes();
+
+```
+
+```python
+# Python
+log_types = driver.log_types
+
+```
+
+```javascript
+// Javascript
+// webdriver.io example
+driver.getLogTypes()
+
+// wd example
+const logTypes = await driver.logTypes();
+
+```
+
+```ruby
+# Ruby
+# ruby_lib example
+get_available_log_types
+
+# ruby_lib_core example
+@driver.logs.available_types
+
+```
+
+```php
+# PHP
+// TODO PHP sample
+
+```
+
+```csharp
+// C#
+IReadOnlyCollection<string> logTypes = driver.Manage().Logs.AvailableLogTypes;
+
+```
+
+## 支持
+
+
+### Appium Server
+
+| 平台    | Driver                                                   | 平台版本   | Appium版本 | Driver版本 |
+|--------|----------------|------|--------------|--------------|
+| iOS | [XCUITest](/docs/en/drivers/ios-xcuitest.md) | 9.3+ | 1.6.0+ | All |
+|  | [UIAutomation](/docs/en/drivers/ios-uiautomation.md) | 8.0 to 9.3 | All | All |
+| Android | [Espresso](/docs/en/drivers/android-espresso.md) | ?+ | 1.9.0+ | All |
+|  | [UiAutomator2](/docs/en/drivers/android-uiautomator2.md) | ?+ | 1.6.0+ | All |
+|  | [UiAutomator](/docs/en/drivers/android-uiautomator.md) | 4.3+ | All | All |
+| Mac | [Mac](/docs/en/drivers/mac.md) | ?+ | 1.6.4+ | All |
+| Windows | [Windows](/docs/en/drivers/windows.md) | 10+ | 1.6.0+ | All |
+
+### Appium客户端
+
+| 语言                                                         | 支持版本 | 文档                                                         |
+|--------|-------|-------------|
+|[Java](https://github.com/appium/java-client/releases/latest)| All | [seleniumhq.github.io](https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/logging/SessionLogs.html#getLogTypes--) |
+|[Python](https://github.com/appium/python-client/releases/latest)| All | [selenium-python.readthedocs.io](http://selenium-python.readthedocs.io/api.html?highlight=get_log#selenium.webdriver.remote.webdriver.WebDriver.log_types) |
+|[Javascript (WebdriverIO)](http://webdriver.io/index.html)| All |  |
+|[Javascript (WD)](https://github.com/admc/wd/releases/latest)| All | [github.com](https://github.com/admc/wd/blob/master/lib/commands.js#L441) |
+|[Ruby](https://github.com/appium/ruby_lib/releases/latest)| All | [www.rubydoc.info](https://www.rubydoc.info/github/appium/ruby_lib/Appium/Common#get_available_log_types-instance_method) |
+|[PHP](https://github.com/appium/php-client/releases/latest)| All | [github.com](https://github.com/appium/php-client/) |
+|[C#](https://github.com/appium/appium-dotnet-driver/releases/latest)| All | [github.com](https://github.com/appium/appium-dotnet-driver/) |
+
+
+## HTTP API 规范
+
+
+### 终端
+
+`GET /session/:session_id/log/types`
+
+
+### URL 参数
+
+| 名称       | 描述                            |
+|----|-----------|
+|session_id|将指令发往的会话（session）的ID|
+
+
+### JSON 参数
+
+None
+
+
+### 响应
+
+日志类型的数组 (`array<string>`)
+
+
+## 参考
+
+* [JSONWP Specification](https://github.com/SeleniumHQ/selenium/wiki/JsonWireProtocol#sessionsessionidlogtypes)
+
+
+
+本文由 [KangarooChen](https://github.com/KangarooChen) 翻译，Last english version: c6c941bb0f95f3a1fac6355cc48b74b038b4d5bd, 4 Jul 2020
