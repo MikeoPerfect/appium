@@ -1,52 +1,29 @@
-## The XCUITest Driver for iOS
+## iOS XCUITest 驱动
 
-Appium's primary support for automating iOS apps is via the `XCUITest` driver.
-_(New to Appium? Read our [introduction to Appium drivers](#TODO))_. This driver
-leverages Apple's
-[XCUITest](https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/09-ui_testing.html)
-libraries under the hood in order to facilitate automation of your app . This
-access to XCUITest is mediated by the
-[WebDriverAgent](https://github.com/facebook/webdriveragent) server.
-WebDriverAgent (also referred to as "WDA") is a project managed by Facebook, to
-which the Appium core team contributes heavily. WDA is a WebDriver-compatible
-server that runs in the context of an iOS simulator or device and exposes the
-XCUITest API. Appium's XCUITest driver manages WDA as a subprocess opaque to
-the Appium user, proxies commands to/from WDA, and provides a host of
-additional functionality (like simulator management and other methods, for
-example).
+Appium 通过 `XCUITest` 驱动支持基本的 iOS 应用自动化。_(Appium 新手? 读一读 [介绍 Appium 驱动](#TODO))_。它在底层使用 [XCUITest](https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/testing_with_xcode/chapters/09-ui_testing.html) 库以更好的自动化你的 App。 对 XCUITest 的使用是通过 [WebDriverAgent](https://github.com/facebook/webdriveragent) 服务间接完成的。
+WebDriverAgent (也被叫做"WDA") 是 Facebook 管理的项目, Appium 核心团队对项目做了很大的贡献。 WDA是一个运行在 iOS 模拟器或设备上暴露 XCUITest API 的服务，兼容 WebDriver。Appium 的 XCUITest 驱动把 WDA 作为对 Appium 用户不透明的子进程控制， 代理发送给和接受自 WDA 的命令， 并且提供大量额外功能 (比如模拟器控制及其他方法)。
+XCUITest 驱动的开发在 [appium-xcuitest-driver](https://github.com/appium/appium-xcuitest-driver) 仓库进行。
 
-Development of the XCUITest driver happens at the
-[appium-xcuitest-driver](https://github.com/appium/appium-xcuitest-driver)
-repo.
+### 依赖和支持
 
-### Requirements and Support
+除了 Appium 通用依赖以外的要求：
 
-In addition to Appium's general requirements:
+* 苹果的 XCUITest 库只能运行在 iOS 9.3 及以上的版本的模拟器或设备上。
+* 安装 macOS 10.11 或 10.12 的 Mac 电脑。
+* Xcode 7 及以上的版本。
+* Appium 在 1.6 及以上的版本才提供 XCUITest 驱动。
+* 需要额外的系统库驱动才能正常工作(查看下面的安装分节)。
 
-* Apple's XCUITest library is only available on iOS simulators and devices that
-  are running iOS 9.3 or higher.
-* A Mac computer with macOS 10.11 or 10.12 is required.
-* Xcode 7 or higher is required.
-* The XCUITest driver was available in Appium starting with Appium 1.6.
-* For correct functioning of the driver, additional system libraries are
-  required (see the Setup sections below).
 
-### Migrating from the UIAutomation Driver
+### 从 UIAutomation 驱动迁移
 
-If you are migrating to the XCUITest driver from Appium's old
-[UIAutomation-based driver](/docs/en/drivers/ios-uiautomation.md), you may wish
-to consult this [migration
-guide](/docs/en/advanced-concepts/migrating-to-xcuitest.md).
+如果需要从 Appium 的旧 [UIAutomation-based 驱动](/docs/cn/drivers/ios-uiautomation.md) 迁移到 XCUITest 驱动，可以查阅[迁移指南](/docs/cn/advanced-concepts/migrating-to-xcuitest.md)。
 
-### Usage
+### 用法
 
-The way to start a session using the XCUITest driver is to include the
-`automationName` [capability](#TODO) in your [new session request](#TODO), with
-the value `XCUITest`. Of course, you must also include appropriate
-`platformName`, `platformVersion`, `deviceName`, and `app` capabilities, at
-a minimum.
+使用 XCUITest 驱动建立会话需要在[新会话请求](#TODO)里包含值为 `XCUITest` 的 `automationName` [capability](#TODO)。当然最少也要包含恰当的`platformName`，`platformVersion`，`deviceName`，和 `app` capabilities。
 
-The `platformName` should be `iOS` for iPhone or iPad. tvOS devices are available if the `platformName` is `tvOS`.
+iPhone 或 iPad 的 `platformName` 应该是 `iOS`。tvOS 设备的 `platformName` 应该是 `tvOS`。
 
 - iOS
    ```json
@@ -71,82 +48,56 @@ The `platformName` should be `iOS` for iPhone or iPad. tvOS devices are availabl
 
 ### Capabilities
 
-The XCUITest driver supports a number of standard [Appium
-capabilities](/docs/en/writing-running-appium/caps.md), but has an additional
-set of capabilities that modulate the behavior of the driver. These can be
-found currently at the [appium-xcuitest-driver
-README](https://github.com/appium/appium-xcuitest-driver#desired-capabilities).
+XCUITest 驱动除了支持许多标准 [Appium capabilities](/docs/cn/writing-running-appium/caps.md)，还有一组额外的 capabilities 调整驱动的行为。可以在 [appium-xcuitest-driver README](https://github.com/appium/appium-xcuitest-driver#desired-capabilities) 查看。
 
-To automate Safari instead of your own application, leave the `app` capability
-empty and instead set the `browserName` capability to `Safari`.
+如果要自动化 Safari 而不是自有的应用，`app` capability 留空，设置 `browserName` capability 为 `Safari`。
 
+### 命令
 
-### Commands
-
-To see the various commands Appium supports, and specifically for information
-on how the commands map to behaviors for the XCUITest driver, see the [API
-Reference](#TODO).
+查看 Appium 支持的各种命令，特别是关于命令如何映射到 XCUITest 驱动行为的信息，请参阅 [API 参考](#TODO)。
 
 
-### Basic Setup
+### 基本安装
 
-_(We recommend the use of [Homebrew](https://brew.sh) for installing system
-dependencies)_
+_(我们建议使用 [Homebrew](https://brew.sh) 安装系统依赖)_
 
-1. Ensure that you have Appium's general dependencies (e.g., Node
-   & NPM) installed and configured.
-2. Install the [Carthage](https://github.com/Carthage/Carthage) dependency
-   manager:
+1. 确保已经安装配置了 Appium 通用依赖(比如 Node & NPM)。
+2. 安装 [Carthage](https://github.com/Carthage/Carthage):
 
     ```bash
     brew install carthage
     ```
 
-If you don't need to automate real devices, you're done! To automate an app on
-the simulator, the `app` capability should be set to an absolute path or url
-pointing to your `.app` or `.app.zip` file, built for the sim.
+如果你不需要在真机上自动运行就安好了！在模拟器上自动化应用，`app` capability 应该设为指向你的为模拟器构建的 `.app` 或 `.app.zip` 文件的绝对路径或链接。
 
-### Real Device Setup
+### 真机安装
 
-Automating a real device with XCUITest is considerably more complicated, due to
-Apple's restrictions around running apps on real devices. Please refer to the
-[XCUITest real device setup doc](ios-xcuitest-real-devices.md) for
-instructions.
+因为苹果对真机上运行的应用的严格限制，在真机上运行 XCUITest 自动化要复杂得多。请看 [XCUITest 真机安装文档](ios-xcuitest-real-devices.md)中的介绍。
 
-Once set up, running a session on a real device is achieved by using the
-following desired capabilities:
+安装完成后，通过使用以下 desired capabilitie 和真机建立会话：
 
-* `app` or `bundleId` - specifies the application (local path or url referencing
-   your signed `.ipa` file) , or, if it is already installed, simply the bundle
-   identifier of the app so that Appium can launch it.
-* `udid` - the specific id of the device to test on. This can also be set to
-   `auto` if there is only a single device, in which case Appium will determine
-   the device id and use it.
+* `app` 或 `bundleId` - 指定应用 (已签名 `.ipa` 文件的本地路径或链接)，如果应用已经安装，Appium 只要有应用的 bundle identifier 就可以启动它。
+* `udid` - 指定运行测试的真机 id。如果只有一台设备也可以设为 `auto`，Appium 会确定设备和 id。
 
-### Optional Setup
+### 可选安装
 
-* Install idb for better handling of various iOS Simulator operations,
-such as: biometrics, geolocation setting and window focussing.
-    * Read https://github.com/appium/appium-idb#installation to install necessary libraries (since Appium 1.14.0)
+* 安装 idb 可以更好的处理各种模拟器操作，比如生物识别，设置定位和窗口焦点。
+   * 根据 https://github.com/appium/appium-idb#installation 安装必要的库 (Appium 1.14.0 以后)。
 
-* Install [AppleSimulatorUtils](https://github.com/wix/AppleSimulatorUtils)
-to use the [permissions capability](https://github.com/appium/appium-xcuitest-driver#desired-capabilities)
+* 安装 [AppleSimulatorUtils](https://github.com/wix/AppleSimulatorUtils) 后可以使用 [permissions capability](https://github.com/appium/appium-xcuitest-driver#desired-capabilities)。
 
-### Files generated by test runs
+### 运行测试产生的文件
 
-Testing on iOS generates files that can sometimes get large. These include
-logs, temporary files, and derived data from Xcode runs. Generally the
-following locations are where they are found, should they need to be deleted:
-
+在 iOS 上测试产生的文件有时会占用很多空间，包括日志、临时文件和 Xcode 运行的派生数据。可以在以下路径删除它们：
 ```
 $HOME/Library/Logs/CoreSimulator/*
 $HOME/Library/Developer/Xcode/DerivedData/*
 ```
 
-### Configure keyboards
-Over Appium 1.14.0, Appium configures keyboard preferences by default to make test running more stable. You can change sone of them via settings API.
+### 配置键盘
+在 Appium 1.14.0 之后，为了让测试运行的更稳定 Appium 会重置键盘的设置为默认项。你可以通过设置 API 修改：
 
-- Turn `Auto-Correction` in _Keyboards_ off
-- Turn `Predictive` in _Keyboards_ off
-- Mark keyboard tutorial as complete
-- (Only for Simulator) Toggle software keyboard on
+- 在 _键盘_ 关闭`自动改正`
+- 在 _键盘_ 关闭`输入预测`
+- 标记键盘教程为完全版
+- (仅模拟器) 打开软键盘
