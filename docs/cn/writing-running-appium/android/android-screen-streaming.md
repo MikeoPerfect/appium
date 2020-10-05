@@ -1,32 +1,31 @@
-## Android Device Screen Streaming With Appium
+## 使用Appium的Android设备屏幕流
 
-Since Appium 1.16 there is a possibility to stream the screen of the device under test to one or more remote clients. The currently displayed content is broadcasted as configurable [MJPEG](https://en.wikipedia.org/wiki/Motion_JPEG) stream over http protocol. This allows to observe automated test execution while it is running and catch possible issues earlier. Single MJPEG server supports multiple simultaneous clients that can receive screen updates at the same time. The framerate there depends on the server and device performance, but is close to the real time one and can reach up to 60 frames per second, especially with properly adjusted bitrate and/or scaled screen dimensions.
-
+Appium从1.16开始，可以将被测设备的屏幕流式传输到一个或多个远程客户端。当前显示的内容通过http协议作为可配置的[MJPEG](https://en.wikipedia.org/wiki/Motion_JPEG)流广播。这样可以观察自动化测试在运行时的执行情况，并尽早发现可能的问题。单个MJPEG服务器支持多个并发客户端，这些客户端可以同时接收屏幕更新。那里的帧速率取决于服务器和设备的性能，但是接近实时速率，可以达到每秒60帧，尤其是在适当调整比特率和/或缩放屏幕尺寸的情况下。
 
 ### mobile: startScreenStreaming
 
-Starts streaming of the device's screen. The streaming can only be started if all the requirements are met:
-- [GStreamer](https://gstreamer.freedesktop.org/) binaries are installed on the server machine. For example, it can be installed using the following command on Mac OS: `brew install gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav`
-- The device under test has `screenrecord` utility available and the utility supports `--output-format=h264` option. Emulators only have this utility since API 27.
-- The `adb_screen_streaming` [server feature](https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/security.md) is enabled.
+开始流式传输设备的屏幕。仅在满足所有要求的情况下才能开始流传输：
 
-The command initializes low-level streaming with adb, pipes it to GStreamer pipeline, which converts h264-encoded frames into JPEG images and sends them to a TCP socket. At the end of this sequence there is Node.js http server, which wraps the TCP stream into HTTP protocol, so the video can be viewed with a normal browser.
-In case the streaming is already running the command just returns silently. Simultaneous streaming on multiple ports/with different configs is not supported. It is necessary to stop the current stream before starting a new one.
+- [GStreamer](https://gstreamer.freedesktop.org/)二进制文件已安装在服务器计算机上。例如，可以使用以下命令在Mac OS上安装它：`brew install gstreamer gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gst-libav`
+- 被测设备有`screenrecord`程序，并且该程序支持`--output-format=h264`参数选项。模拟器仅从API 27开始有此程序。
+- `adb_screen_streaming` [服务器功能](https://github.com/appium/appium/blob/master/docs/en/writing-running-appium/security.md)被启用。
 
-#### Supported arguments
+该命令使用adb初始化低级流，将其通过管道传输到GStreamer管道，该管道将h264编码的帧转换为JPEG图像并将其发送到TCP套接字。在此序列的末尾有Node.js http服务，该服务将TCP流包装为HTTP协议，因此可以使用常规浏览器观看视频。如果流媒体已在运行，则命令仅静默返回。不支持同时在多个端口/不同的配置的设备进行流传输。在开始新的流之前，必须先停止当前流。
 
- * _width_: The desired width of the resulting images. This is set to the actual width of the device's screen if unset. The output stream is going to be scaled if the `width` value is less than the original one. It is recommended to keep the original scale while setting a custom width/height.
- * _height_: The desired height of the resulting images. This is set to the actual height of the device's screen if unset. The output stream is going to be scaled if the `height` value is less than the original one. It is recommended to keep the original scale while setting a custom width/height.
- * _bitRate_: The bit rate of the original h264-encoded video stream. By default it equals to 4000000 bit/s. It is recommended to set it to lower values if you observe serious frame drop in the resulting MJPEG video.
- * _host_: The IP address/host name to start the HTTP MJPEG server on. You can set it to `0.0.0.0` to trigger the broadcast on all available network interfaces. `127.0.0.1` by default.
- * _port_: The port number to start the HTTP MJPEG server on. `8093` by default.
- * _pathname_: The HTTP request path the MJPEG server should be available on. If unset then any pathname on the given `host`/`port` combination will work. Note that the value should always start with a single slash: `/`
- * _tcpPort_: The port number to start the internal TCP MJPEG broadcast on. This type of broadcast always starts on the loopback interface (`127.0.0.1`). `8094` by default.
- * _quality_: The quality value for the streamed JPEG images. This number should be in range [1, 100], where 100 is the best quality. `70` by default.
- * _considerRotation_: If set to `true` then GStreamer pipeline will increase the dimensions of the resulting images to properly fit images in both landscape and portrait orientations. Set it to `true` if the device rotation is not going to be the same during the broadcasting session. `false` by default.
- * _logPipelineDetails_: Whether to log GStreamer pipeline events into the standard log output. Might be useful for debugging purposes. `false` by default.
+#### 支持的参数
 
-#### Usage examples
+- *width*：生成的图像所需的宽度。如果该参数未设置，则默认设置为设备屏幕的实际宽度。如果该`width`值小于原始值，则将缩放输出流。建议在设置自定义宽度/高度时保留原始比例。
+- *height*：生成的图像所需的高度。如果该参数未设置，则默认设置为设备屏幕的实际高度。如果该`height`值小于原始值，则将缩放输出流。建议在设置自定义宽度/高度时保留原始比例。
+- *bitRate*：原始的h264编码的视频流的比特率。默认情况下，它等于4000000 bit / s。如果在生成的MJPEG视频中发现严重的帧丢失，建议将其设置为较低的值。
+- *host*：用于启动HTTP MJPEG服务的IP地址/主机名。您可以将其设置为`0.0.0.0`,触发所有可用网络接口上的广播。默认情况下为`127.0.0.1`。
+- *port*：用于启动HTTP MJPEG服务器的端口号。默认情况下为`8093`。
+- *pathname*：MJPEG服务可用的HTTP请求路径。如果该参数未设置，则给定`host`/`port`组合上的任何路径名都可以使用。请注意，该值应始终以单个斜杠开头：`/`
+- *tcpPort*：用于启动内部TCP MJPEG广播的端口号。此类广播始终在环回接口（`127.0.0.1`）上开始。默认情况下为`8094`。
+- *quality*：流式JPEG图像的质量值。此数字应在[1，100]范围内，其中100是最佳质量。默认情况下为`70`。
+- *thinkRotation*：如果设置为，`true`则GStreamer管道将增加生成的图像的尺寸，以使图像横向和纵向都正确适合。`true`如果在广播会话期间设备旋转不会相同，请将其设置为。`false`默认情况下。
+- *logPipelineDetails*：是否将GStreamer管道事件记录到标准日志输出中。用于调试作用较大。默认情况下为`false`。
+
+#### 用法示例
 
 ```java
 // Java
@@ -50,12 +49,11 @@ driver.execute_script('mobile: shell', {
 })
 ```
 
-
 ### mobile: stopScreenStreaming
 
-Stops the running screen streaming session. If no session has been started before then no action is done. Note that screen streaming session is always stopped automatically as soon as the container driver session is terminated.
+停止正在运行的屏幕流session。如果之前没开始任何session，则不执行任何操作。请注意，一旦终止容器driver的session，屏幕流session会自动停止。
 
-#### Usage examples
+#### 用法示例
 
 ```java
 // Java

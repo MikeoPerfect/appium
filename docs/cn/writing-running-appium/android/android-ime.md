@@ -1,22 +1,23 @@
-## How To Emulate IME Actions Generation
+## 如何模拟IME动作生成
 
-Very often Android developers use [onEditorAction](https://developer.android.com/reference/android/widget/TextView.OnEditorActionListener.html#onEditorAction(android.widget.TextView,%20int,%20android.view.KeyEvent)) callback with `actionId` argument to implement actions handling, for example, when `Search` or `Done` button is pressed on the on-screen keyboard. Appium since version 1.9.2 allows to automate the generation of such actions by providing the special `mobile:` command.
-
+Android开发人员经常使用带有`actionId`参数的[onEditorAction](https://developer.android.com/reference/android/widget/TextView.OnEditorActionListener.html#onEditorAction(android.widget.TextView, int, android.view.KeyEvent))回调来实现动作处理，例如，在屏幕键盘上按下`Search`或`Done`按钮的时候。从1.9.2以后版本的Appium允许通过提供特殊`mobile:`命令来自动生成此类动作。
 
 ### mobile: performEditorAction
 
-Executes the given editor action on the _currently focused_ element.
+对当前关注的元素执行给定的编辑器动作。
 
-#### Supported arguments
+#### 支持的参数
 
- * _action_: The name or an integer code of the editor action to be executed. The following action names are supported: `normal, unspecified, none, go, search, send, next, done, previous`. Read https://developer.android.com/reference/android/view/inputmethod/EditorInfo for more details on this topic.
+- *action*：待执行的编辑器动作的名称或整数代码。支持以下操作名称：`normal, unspecified, none, go, search, send, next, done, previous`。阅读https://developer.android.com/reference/android/view/inputmethod/EditorInfo了解有关此主题的更多详细信息。
 
-#### Usage examples
+#### 用法示例
 
 ```java
 // Java
 driver.executeScript("mobile: performEditorAction", ImmutableMap.of("action", "Go"));
 ```
+
+#### 用法示例
 
 ```python
 # Python

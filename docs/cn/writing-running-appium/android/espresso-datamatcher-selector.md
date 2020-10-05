@@ -1,16 +1,16 @@
-## Espresso DataMatcher Selector
+## Espresso DataMatcher选择器
 
-By delegating to Espresso's [Data Matcher](https://developer.android.com/reference/android/support/test/espresso/DataInteraction), we can target views that are not visible in the viewport without the need to manually scroll the Views on screen.
+通过委托给Espresso的[Data Matcher](https://developer.android.com/reference/android/support/test/espresso/DataInteraction)，我们可以定位在视口中不可见的视图，而无需手动滚动屏幕上的视图。
 
-### AdapterViews
+### 适配器视图
 
-Android apps have special types of Views called [AdapterViews](https://developer.android.com/reference/android/widget/AdapterView) (e.g.: `ScrollView`, `ListView`, `GridView`) which have child views, but only render that child views that are on-screen. The AdapterView has "adapter" object which stores all the data for that view's children, including the views that aren't being rendered.
+Android应用程序有特殊类型的[AdapterViews](https://developer.android.com/reference/android/widget/AdapterView)视图（如：`ScrollView`，`ListView`，`GridView`），但其只渲染那些屏幕上可见的子视图。AdapterView具有“adapter”对象，该对象存储该视图子级的所有数据，包括未呈现的视图。
 
-When using Espresso's Data Matcher, you can target views that are off-screen by writing a [Hamcrest matcher](http://hamcrest.org/JavaHamcrest/javadoc/1.3/org/hamcrest/Matchers.html) that selects an item from an adapter. If the item is not in the view hierarchy, Espresso automatically scrolls it into view.
+使用Espresso的数据匹配器时，您可以编写一个[Hamcrest matcher](http://hamcrest.org/JavaHamcrest/javadoc/1.3/org/hamcrest/Matchers.html)以从适配器中选择一个项，从而定位屏幕外的视图。如果该项不在视图层次结构中，则Espresso会自动将其滚动到视图中。
 
-### Example
+### 示例
 
-This is a ListView taken from the source XML of an Android App:
+这是从Android应用程序的源XML中获取的ListView：
 
 ```xml
 <android.widget.ListView index="0" package="io.appium.android.apis" class="android.widget.ListView" checkable="false" checked="false" clickable="true" enabled="true" focusable="true" focused="false" scrollable="true" long-clickable="false" password="false" selected="false" visible="true" bounds="[0,210][1080,1794]" resource-id="android:id/list" adapter-type="HashMap" adapters="{contentDescription=Animation, title=Animation, intent=Intent { cmp=io.appium.android.apis/.ApiDemos (has extras) }},{contentDescription=Auto Complete, title=Auto Complete, intent=Intent { cmp=io.appium.android.apis/.ApiDemos (has extras) }}, ...}">
@@ -30,9 +30,9 @@ This is a ListView taken from the source XML of an Android App:
 </android.widget.ListView>
 ```
 
-This ListView displays menu items [`Drag and Drop`, `Expandable Lists`, ... to `Lists`]. This menu has several more items that aren't on-screen and can't be located with standard locators. For example, There's a menu item called `TextClock` that is not currently visible in the View hierarchy.
+这ListView控件显示菜单项[ `Drag and Drop`，`Expandable Lists`...直到`Lists`]。此菜单还有其他几个不在屏幕上的项，无法使用标准定位器定位。例如，有一个名为`TextClock`的菜单项在View层次结构中不可见。
 
-The `ListView` node in the above XML has an attribute called `adapters` that contains the data that "backs up" the ListView:
+`ListView`上面的XML中的节点具有一个名为的属性`adapters`，其中包含“备份” ListView的数据：
 
 ```js
 {
@@ -55,7 +55,7 @@ The `ListView` node in the above XML has an attribute called `adapters` that con
 ...
 ```
 
-These items can be targeted using a datamatcher selector. Here's a code snippet that shows how to locate and click `TextClock`:
+这些项可以使用数据匹配器选择器来定位。以下为显示如何找到并单击`TextClock`的代码段：
 
 ```js
 // Javascript example
@@ -87,7 +87,7 @@ driver.find_element_by_id('list')
     .click()
 ```
 
-This Appium selector is equivalent to writing this matcher in Espresso:
+此Appium选择器等效于在Espresso中编写此匹配器：
 
 ```java
 // Espresso code (not Appium code)
@@ -96,9 +96,10 @@ onData(hasEntry("title", "textClock")
   .perform(click());
 ```
 
-In this example, we select the parent `AdapterView` using an id selector and then find a child of that view by applying a Hamcrest Matcher that matches an object with `title="TextClock"`.
+在此示例中，我们使用ID选择器选择父对象`AdapterView`，然后通过应用与对象`title="TextClock"`匹配的Hamcrest Matcher找到该视图的子对象。
 
-Locating the parent `AdapterView` is not necessary if the Activity only has one adapter view. In that case, it can be omitted.
+`AdapterView`如果“活动”只有一个适配器视图，则无需定位父对象。在这种情况下，可以将其省略。
+
 
 ```js
 driver.findElement("-android datamatcher", JSON.stringify({
@@ -124,9 +125,10 @@ driver.find_element_by_android_data_matcher({
 }).click()
 ```
 
-### Writing the Selector
+### 编写选择器
 
-The data matcher selector uses Java reflection to invoke a [Hamcrest matcher](http://hamcrest.org/JavaHamcrest/javadoc/1.3/org/hamcrest/Matchers.html) that's used to locate the adapter object. The matcher is in JSON format and has this format
+数据匹配器选择器使用Java reflection来调用用于定位适配器对象的[Hamcrest匹配器](http://hamcrest.org/JavaHamcrest/javadoc/1.3/org/hamcrest/Matchers.html)。匹配器为JSON格式，并且具有此格式
+
 
 ```js
 {
@@ -134,15 +136,15 @@ The data matcher selector uses Java reflection to invoke a [Hamcrest matcher](ht
   "args": [...],
 ```
 
-The name is a Hamcrest matcher method name. This defaults to the `org.hamcrest.Matchers` namespace, but fully qualifed matcher method names can be used too (e.g.: `android.support.test.espresso.matcher.CursorMatchers.withRowBlob`).
+该名称是Hamcrest匹配器方法名称。默认为`org.hamcrest.Matchers`名称空间，但是也可以使用匹配器方法全称（例如：`android.support.test.espresso.matcher.CursorMatchers.withRowBlob`）。
 
-The args are a list of args that the method takes (can be undefined if it takes no args). These can be strings, numbers, booleans or other hamcrest matcher JSON definitions.
+args是该方法采用的参数列表（如果不采用args则可以不确定）。这些可以是字符串，数字，布尔值或其他JSON定义的Hamcrest Matcher。
 
-### JSON matcher samples
+### JSON匹配器样本
 
-Examples of JSON matchers with the equivalent Espresso `onData` matcher
+具有等效Espresso`onData`匹配器的JSON匹配器示例
 
-#### StartsWith
+#### 开头
 
 ```js
 // 'startsWith' JSON
@@ -157,7 +159,7 @@ Examples of JSON matchers with the equivalent Espresso `onData` matcher
 onData(startsWith("substr"));
 ```
 
-#### Multiple Matchers
+#### 多个匹配器
 
 ```js
 // 'multiple matchers' JSON
@@ -178,7 +180,7 @@ onData(startsWith("substr"));
 onData(allOf(is(instanceOf(Map.class)), hasEntry(equalTo("STR"), is("item: 50"))));
 ```
 
-#### Cursor Matchers
+#### Cursor匹配器
 
 ```js
 // 'cursor matchers' JSON
@@ -201,6 +203,7 @@ onData(
 ```
 
 
-### Resources
-* [Explanation of Views vs. Data in Espresso](https://medium.com/androiddevelopers/adapterviews-and-espresso-f4172aa853cf)
-* [Espresso lists](https://developer.android.com/training/testing/espresso/lists)
+### 资源
+
+- [Espresso中的视图与数据说明](https://medium.com/androiddevelopers/adapterviews-and-espresso-f4172aa853cf)
+- [Espresso清单](https://developer.android.com/training/testing/espresso/lists)

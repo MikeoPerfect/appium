@@ -1,20 +1,19 @@
-## How To Execute Shell Commands On The Remote Device
+## 如何在远程设备上执行Shell命令
 
-It is possible to execute any command on the remote Android device or an emulator under test and get the output from it. This action might be potentially insecure and is disabled on the server side by default. One must provide the `--relaxed-security` command line argument while starting the server in order to enable remote shell commands execution (and other insecure features, which are disabled by default). An exception will be thrown if the relaxed security has not been enabled on the server side and one tries to invoke `mobile: shell` endpoint on the client side.
-
+可以在远程Android设备或被测模拟器上执行任何命令，并获取输出。此操作可能不安全，默认情况下在服务器端已禁用。在启动服务器时，必须提供命令行参数`--relaxed-security`才能启用远程Shell命令执行（以及其他默认禁用的不安全功能）。如果未在服务器端启用该命令行参数，并且尝试在客户端调用`mobile: shell`，则会引发异常。
 
 ### mobile: shell
 
-Executes the given shell command on the device under test and returns its `stdout` or both `stdout` and `stderr` if `includeStderr` is set to `true`. An exception will be thrown if the command's return code is not zero. This command acts in the same manner as it would be executed via `adb shell` on the host computer.
+在被测设备上执行给定的shell命令，并返回其`stdout`或同时返回`stdout`和`stderr`（如果`includeStderr`设置为`true`）。如果命令的返回码不为0，则将引发异常。该命令的执行动作与其在主机上通过`adb shell`执行的动作相同。
 
-#### Supported arguments
+#### 支持的参数
 
- * _command_: The name of the remote command. It can also be a full path to an executable, for example `/bin/ls`. The parameter is mandatory.
- * _args_: The list of command arguments represented as an array of strings. If a single string is provided then it will be automatically transformed into one-item array. Optional parameter.
- * _includeStderr_: Set this argument to `true` in order to include stderr output to the returned result along with stdout. If enabled then the returned result will be a map of `stdout` and `stderr` keys containing the corresponding strings otherwise it is just a simple string. `false` by default.
- * _timeout_: The shell command timeout in milliseconds. If the command requires more time to finish execution then an exception is going to be thrown. 20000 ms by default.
+- *command*：远程命令的名称。例如，它也可以是可执行文件的完整路径`/bin/ls`。该参数是强制性的。
+- *args*：以字符串数组表示的命令参数列表。如果只提供单个字符串，则它将自动转换为单项数组。可选参数。
+- *includeStderr*：将此参数设置为`true`，以便将`stderr`输出与`stdout`一起包括到返回的结果中。如果启用，则返回的结果将map包含相应的字符串键 `stdout`和`stder`，否则它只是一个简单的字符串。默认情况下为`false`。
+- *timeout*：shell命令超时时间（以毫秒为单位）。如果该命令需要更多时间来完成执行，则将引发异常。默认为20000毫秒。
 
-#### Usage examples
+#### 用法示例
 
 ```java
 // Java
