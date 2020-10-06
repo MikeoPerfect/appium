@@ -64,7 +64,7 @@ node.js的原生支持，Appium代码是_被移植_到ES5（JS更为广泛支持
 
 对于所有Appium的JS而言，代码外观和使用感觉同样重要。这包括样式常规，编码模式以及我们解决各种问题时使用的
 库。你应该熟悉我们新的[ES2015 风格指南](/docs/cn/contributing-to-appium/style-guide.md)。
-当转化时，Appium包将自动运行JSHint或其他lint工具，并在代码不符合我们规范的时候提供警告或错误反馈。
+当转化时，Appium包将自动运行ESHint或其他lint工具，并在代码不符合我们规范的时候提供警告或错误反馈。
 这些工具不一定能顾全我们关心的种种风格问题，所以我们在review代码的时候也应该注意代码规范问题。这不是
 吹毛求疵，而是为了有一个整洁，一致并且可读的代码库。
 
@@ -88,10 +88,10 @@ node.js的原生支持，Appium代码是_被移植_到ES5（JS更为广泛支持
 以下是你可以做的事情（除非README另有说明）：
 
 ```
-gulp                    # 监测目录下重编译代码更改，以及运行单元测试
-gulp once               # 同上，当不提供监测
-gulp unit-test          # 转化和运行单元测试
-gulp e2e-test           # 转化以及运行端到端／功能测试
+npm run lint            # 在代码里运行 eslint
+npm run watch           # 监测目录下重编译代码更改，lint 以及运行单元测试
+npm run test            # 同上，当不提供监测
+npm run e2e-test        # 转化以及运行端到端／功能测试
 _FORCE_LOGS=1 <command> # 显示测试运行期间的模块日志输出
 ```
 
@@ -102,12 +102,12 @@ _FORCE_LOGS=1 <command> # 显示测试运行期间的模块日志输出
 任何非Appium主包的发布流程都是非常简洁明了的（请注意：如果你想要发布它，你需要成为一个NPM的所有者。
 所有权由Appium提交者管理； 如果你对所有者有任何疑问，请联系@jlipps 或者 @imurchie）。
 
-0. `rm -rf node_modules && rm -rf package-lock.json && npm install` 并运行测试以确保全新安装正常工作
-0. 根据[SemVer](http://semver.org/) 规则决定我们是否需要发布一个补丁（漏洞修复），微调（功能）或者是主要（迭代）(请参考 [how SemVer works with NPM](https://docs.npmjs.com/getting-started/semantic-versioning).
-0. 通过任何适当的更改和提交来更新CHANGELOG以README文件。大多数子包没有CHANGELOG。
-0. 通过适当的版本类型运行 `npm version <version-type>`
-0. 将适当的分支推送到GitHub, 不要忘记加入`--tags` 来标记刚由 `npm version`创建的标志.
-0. 运行 `npm publish` (如果不是正式版， 请使用`--tag beta`).
+1. `rm -rf node_modules && rm -rf package-lock.json && npm install` 并运行测试以确保全新安装正常工作
+1. 根据[SemVer](http://semver.org/) 规则决定我们是否需要发布一个补丁（漏洞修复），微调（功能）或者是主要（迭代）(请参考 [how SemVer works with NPM](https://docs.npmjs.com/getting-started/semantic-versioning).
+1. 通过任何适当的更改和提交来更新 CHANGELOG 和/或 README文件。大多数子包没有CHANGELOG。
+1. 通过适当的版本类型运行 `npm version <version-type>`
+1. 将适当的分支推送到GitHub, 不要忘记加入`--tags` 来标记刚由 `npm version`创建的标志.
+1. 运行 `npm publish` (如果不是正式版， 请使用`--tag beta`).
 
 对于Appium的主包发布，上述步骤必须执行，但有以下改变。一个原因是对于主包，我们使用NPM收缩包装
 以确保依赖在安装的时候不更改。另一个原因是我们在master上开发和各种分支上发布。它的工作方式
@@ -116,25 +116,28 @@ _FORCE_LOGS=1 <command> # 显示测试运行期间的模块日志输出
 我们首先将补丁拉到master中，然后将单个补丁挑选到发布分支（甚至是多个发布分支）。 然后我们再次
 从这些分支发布更新的补丁版本（例如`1.5.1`或`2.0.1`）。
 
+每次正式版本发布前至少有一个候选版本，例如，如果准备发布 1.12.0，这样我们需要切换到分支 `1.12`，然后先发布 `1.12.0-rc.0`。
+我们会持续发布最新的候选版本直到满意为止，然后就会更新正式版本。正式版本会有相同的代码和 shrinkwrap，成为下次的候选版本。
+唯一的区别在于版本，体现在 package.json 和 npm-shrinkwrap.json文件上面。
+
 **关于 `npm shrinkwrap`的注释：** 我们使用[npm shrinkwrap](https://docs.npmjs.com/cli/shrinkwrap)是为了在发布时锁定依赖关系。
 没有它，任何依赖包上的开发将在安装Appium时反应出来，这可能会导致问题。 由于配置文件`npm-shrinkwrap.json`仅存在于发布分支上，
-因此有必要在发布过程中手动管理它。 它需要与对`package.json`的更改一起提交到GitHub。
+因此有必要在发布过程中手动管理它。 它需要与对`package.json`的更改一起提交到GitHub。npm 5+ 还会产生一个 `package-lock.json` 文件，在收缩过程中转化成 `npm-shrinkwrap.json` 文件。
 
-0. 如果 NPM shrinkwrap JSON 文件存在，请移除.
-0. `rm -rf node_modules && rm -rf package-lock.json && npm install` 并运行测试以确保全新安装正常工作
-0. `rm -rf node_modules && rm -rf package-lock.json && npm install --production` 以获取仅production部分.
-0. `npm shrinkwrap` 来编写新的 NPM shrinkwrap JSON 文件.
-0. 根据SemVer来决定我们是否需要发布一个补丁（漏洞修复），微调（功能）或者是主要（迭代）
-0. 用合适的新版本信息来更新`package.json`
-0. 对CHANGELOG/README进行合适的更改，同shrinkwrap 和 `package.json`的改变一起以PR的形式进行提交审核。待它被合并之后，把它`pull`进`release`分支。
-0. 在发布分支（通常是一个小分支，如`1.5`或`1.4`）上创建一个形式为`v <version>`的标签：`git tag -av <version>`，例如`git tag -a 1.5.0`。 这对测试版本不是必需的。
-0. 把标签推送到上游分支： `git push --tags <remote> <branch>`
-0. 安装dev依赖 （或者至少`gulp` 和 `appium-gulp-plugins`）
-0. 运行`npm publish`（如果这不是正式版本，请使用`--tag beta` ）。
-0. 在appium.io更新文档。 从github的check out appium.io repo，check out`gh-pages`分支和并更新到最新版本。 然后运行`rake publish`。
-0. 在GitHub上创建一个新版本：转到`https://github.com/appium/appium/releases/tag/v <VERSION>`并点击“编辑标签”。 输入发布名称为`<VERSION>`（例如，`2.0.5`），然后粘贴到更改日志（但不是此版本的changelog标题）。 如果是试用版，请标记为预发布。
-0. 在 discuss.appium.io 创建新的帖子来宣布release. 请创建于 "News"类别. 粘贴在changelog和任何可选的评论。 置顶当前帖子并取消置顶上一个release帖子。
-0. 开始发布`appium-desktop`。
-0. 请告知 @jlipps，以便他可以发布一个链接到讨论帖子。
+1. 如果 npm-shrinkwrap.json 和 package-lock.json文件存在，请移除.
+1. `rm -rf node_modules && npm install` 并运行测试以确保全新安装正常工作
+1. 根据SemVer来决定我们是否需要发布一个补丁（漏洞修复），微调（功能）或者是主要（迭代）
+1. 用合适的新版本信息来更新`package.json`
+1. 对CHANGELOG/README进行合适的更改，同shrinkwrap 和 `package.json`的改变一起以PR的形式进行提交审核。待它被合并之后，把它`pull`进`release`分支。
+1. 运行`npm shrinkwrap` 生成`npm-shrinkwrap.json`文件
+1. 在发布分支（通常是一个小分支，如`1.5`或`1.4`）上创建一个形式为`v <version>`的标签：`git tag -av <version>`，例如`git tag -a 1.5.0`, `git tag -a v1.5.0-rc.1`。 这对测试版本不是必需的。
+1. 把标签推送到上游分支： `git push --tags <remote> <branch>`
+1. 运行`npm publish`（如果这不是正式版本，请使用`--tag beta` ）。
+1. 从Git里删除npm-shrinkwrap.json文件，并把这个改动push到Git.
+1. 在 https://github.com/appium/appium.io/pulls 更新网站文档，然后合并 Triager bot 最近提交的 Open 状态的 PR 代码，并关闭他的其他已打开的 PR。
+1. 在GitHub上创建一个新版本：转到`https://github.com/appium/appium/releases/tag/v <VERSION>`并点击“编辑标签”。 输入发布名称为`<VERSION>`（例如，`2.0.5`），然后粘贴到更改日志（但不是此版本的changelog标题）。 如果是试用版，请标记为预发布。
+1. 在 discuss.appium.io 创建新的帖子来宣布release. 请创建于 "News"类别. 粘贴在changelog和任何可选的评论。 置顶当前帖子并取消置顶上一个release帖子。
+1. 开始发布`appium-desktop`。
+1. 请告知 @jlipps，以便他可以发布一个链接到讨论帖子。
 
 本文由 [ZhaoC](https://github.com/ZhaoC) 翻译，由 [oscarxie](https://github.com/oscarxie) 校验。

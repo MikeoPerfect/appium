@@ -1,6 +1,6 @@
 ## Appium 介绍
 
-Appium 是一个开源工具，用于自动化 iOS 手机、 Android 手机和 Windows 桌面平台上的原生、移动 Web 和混合应用。**「原生应用」**指那些用 iOS、 Android 或者 Windows SDKs 编写的应用。**「移动 Web 应用」**是用移动端浏览器访问的应用（ Appium 支持 iOS 上的 Safari 、Chrome 和 Android 上的内置浏览器）。**「混合应用」**带有一个「webview」的包装器——用来和 Web 内容交互的原生控件。类似于 [Apache Cordova](https://cordova.apache.org) 或 [Phonegap](http://phonegap.com/) 项目，创建一个混合应用使得用 Web 技术开发然后打包进原生包装器创建一个混合应用变得容易了。
+Appium 是一个自动化开源工具，支持 iOS 、 Android 和 Windows 桌面平台上的原生、移动 Web 和混合应用的自动化 。**「原生应用」**指那些用 iOS、 Android 或者 Windows SDKs 编写的应用。**「移动 Web 应用」**是用移动端浏览器访问的应用（ Appium 支持 iOS 上的 Safari 、Chrome 和 Android 上的内置浏览器）。**「混合应用」**带有一个「webview」的包装器——用来和 Web 内容交互的原生控件。类似于 [Apache Cordova](https://cordova.apache.org) 或 [Phonegap](http://phonegap.com/) 项目，创建一个混合应用使得用 Web 技术开发然后打包进原生包装器创建一个混合应用变得容易了。
 
 重要的是，Appium 是跨平台的：它允许你用同样的 API 对多平台（iOS、Android、Windows）写测试。做到在 iOS、Android 和 Windows 测试套件之间复用代码。
 
@@ -22,7 +22,6 @@ Appium 旨在满足移动端自动化需求的理念，概述为以下四个原�
 * iOS 9.3 及以上: 苹果的 [XCUITest](https://developer.apple.com/reference/xctest)
 * iOS 9.3 及以下: 苹果的 [UIAutomation](https://web.archive.org/web/20160904214108/https://developer.apple.com/library/ios/documentation/DeveloperTools/Reference/UIAutomationRef/)
 * Android 4.3+: 谷歌的 [UiAutomator / UiAutomator2](https://developer.android.com/training/testing/ui-automator)
-* Android 2.3+: 谷歌的 [Instrumentation](http://developer.android.com/reference/android/app/Instrumentation.html). (通过绑定独立的项目—— [Selendroid](http://selendroid.io) 提供对 Instrumentation 的支持)
 * Windows: 微软的 [WinAppDriver](http://github.com/microsoft/winappdriver)
 
 为了实现理念#2，我们把这些系统本身提供的框架包装进一套 API —— [WebDriver](http://docs.seleniumhq.org/projects/webdriver/) API 中。WebDriver（也叫「Selenium WebDriver」）规定了一个客户端-服务器协议（称为 [JSON Wire Protocol](https://w3c.github.io/webdriver/webdriver-spec.html)），按照这种客户端-服务器架构，可以使用任何语言编写的客户端向服务器发送适当的 HTTP 请求。已经有为 [各个流行编程语言编写的客户端](http://appium.io/downloads) 。这也意味着你可以自由使用任何你想用的的测试运行器和测试框架；客户端程序库不过是一个简单的 HTTP 客户端，可以以任何你喜欢的方式混入你的代码。换句话说，Appium & WebDriver 客户端在技术上而言不是「测试框架」，而是「自动化程序库」。你可以以任何你喜欢的方式管理你的测试环境！
@@ -60,7 +59,7 @@ Appium 的 `beta` 版本可以通过 NPM 使用 `npm install -g appium@beta` 指
 
 ### 入门指南
 
-恭喜！你现在有足够的知识来使用 Appium 了。 为什么不前往 [入门指南](/docs/en/about-appium/getting-started.md)(English) 了解更多详细的要求和指南呢？
+恭喜！你现在有足够的知识来使用 Appium 了。 为什么不前往 [入门指南](/docs/cn/about-appium/getting-started.md) 了解更多详细的要求和指南呢？
 
 ---
 EOF.

@@ -3,7 +3,7 @@
 尽管 Selenium WebDriver 的规范已经支持了一些移动交互，但它的参数并不总是能轻易映射到底层设备的自动化框架所提供的方法上（比如 iOS 上的 UIAutomation）。为此，Appium 在最新的规范（[https://dvcs.w3.org/hg/webdriver/raw-file/tip/webdriver-spec.html#multiactions-1](https://dvcs.w3.org/hg/webdriver/raw-file/tip/webdriver-spec.html#multiactions-1)）
 中实现了新的触摸操作和多点触控 API。注意，这与早期版本中原始的 JSON Wire 协议里的触摸操作 API 不同。
 
-这些 API 允许你使用多个执行器去建立任意的手势。请查看对应语言的 Appium 客户端文档来查看使用这些 API 的示例。
+这些 API 允许你使用多个动作去建立任意的手势。请查看对应语言的 Appium 客户端文档来查看使用这些 API 的示例。
 
 **W3C 操作的注意事项**
 
@@ -183,8 +183,6 @@ slider.sendKeys("0.1");
 
 在Android上与滑块交互的最佳方式是使用触摸操作（TouchActions）。
 
----
-EOF.
 
 本文由 [NativeZhang](https://github.com/NativeZhang) 翻译，由 [lihuazhang](https://github.com/lihuazhang) 校验。
 
