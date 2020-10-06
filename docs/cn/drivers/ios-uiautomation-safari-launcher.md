@@ -1,36 +1,23 @@
-## SafariLauncher Setup Instructions
+## SafariLauncher 安装说明
 
-Running mobile web tests on iOS real devices with iOS 9.3 or below, using Instruments,
-requires the introduction of a third-party app, [SafariLauncher](https://github.com/snevesbarros/SafariLauncher).
-This is necessary because with Instruments there is no way to start the Safari
-app on the device. The `SafariLauncher` app just launches, and then launches
-Safari. Simple!
+在 iOS 9.3 及以下的真机上使用 Instruments 运行移动端网页测试，需要引入一个第三方 app [SafariLauncher](https://github.com/snevesbarros/SafariLauncher)。
+这是因为用 Instruments 不能在设备上启动 Safari。而 `SafariLauncher` 启动后会启动 Safari。简单吧！
 
-In some configurations, Appium is able to automatically build, sign, and install
-`SafariLauncher` as it needs, and there is nothing else necessary to be done. If,
-however, this is not the case, as is more often so with later versions of
-[Xcode](https://developer.apple.com/xcode/), the following configuration needs to
-be done before Safari tests on real devices can be successfully run.
+在一些配置下，Appium 可以在需要时自动构建、签名并且安装 `SafariLauncher`，不需要额外做什么。如果不行，很可能是因为新版本的 [Xcode](https://developer.apple.com/xcode/)，需要完成以下配置才能成功在真机上运行 Safari 测试。
 
+### 自动配置 SafariLauncher
 
-### Automatic SafariLauncher configuration
+只要新建一个用于发布 `SafariLauncher` 应用的 **provisioning profile** 就可以自动配置 `SafariLauncher`。特殊之处是需要一个通配符证书，而免费的苹果开发者账号不能创建通配符证书。所以免费账号需要用下面的手动配置方法。
 
-The only thing needed for automatic `SafariLauncher` configuration is to create
-a **provisioning profile** that can be used to deploy the `SafariLauncher` App.
-This requires, in particular, a wildcard certificate, which is not possible if
-your Apple developer account is a free one. If that is the case, skip to the
-manual configuration below.
+创建 launcher 使用的 profile 需要进入 **Apple Developers Member Center** 然后：
+  * **步骤 1:** 创建 **新的 App Id**，选择通配符 App ID 选项并填写为"*"。
+  * **步骤 2:** 创建 **新的 Development Profile** 关联步骤 1 创建的 App Id。
+  * **步骤 3:** 选择你的 **certificate(s) and device(s)** 然后点击下一步。
+  * **步骤 4:** 填写 profile 名称然后 **generate the profile**。
+  * **步骤 5:** 下载 profile 用编辑器打开。
+  * **步骤 6:** 搜索 **UUID**，字符串是你的 **identity code**。
 
-To create a profile for the launcher go into the **Apple Developers Member Center** and:
-
-  * **Step 1:** Create a **new App Id** and select the WildCard App ID option and set it to "*"
-  * **Step 2:** Create a **new Development Profile** and for App Id select the one created in step 1.
-  * **Step 3:** Select your **certificate(s) and device(s)** and click next.
-  * **Step 4:** Set the profile name and **generate the profile**.
-  * **Step 5:** Download the profile and open it with a text editor.
-  * **Step 6:** Search for the **UUID** and the string for it is your **identity code**.
-
-Now simply include your UDID and device name in your desired capabilities:
+现在只需在 desired capabilities 中填入你的 UDID 和 device name：
 ```js
 {
   udid: '...',
@@ -42,55 +29,42 @@ Now simply include your UDID and device name in your desired capabilities:
 ```
 
 
-### Manual SafariLauncher configuration
+### 手动配置 SafariLauncher
 
-**Note:** This procedure assumes you have [Xcode](https://developer.apple.com/xcode/) 7.3 or 7.3.1.
+**注意:** 这个过程假定你是 [Xcode](https://developer.apple.com/xcode/) 7.3 或 7.3.1。
 
-It is possible to use the version of [SafariLauncher](https://github.com/snevesbarros/SafariLauncher)
-that comes with the [appium-ios-driver](https://github.com/appium/appium-ios-driver),
-but if you do, each time you update Appium the procedure will have to be done again.
+可以使用 [appium-ios-driver](https://github.com/appium/appium-ios-driver) 包含的 [SafariLauncher](https://github.com/snevesbarros/SafariLauncher) 版本，但是每次升级 Appium 后都必须重新做一遍。
 
-To get a local copy of `SafariLauncher`, first clone it from [GitHub](https://github.com/):
+先从 [GitHub](https://github.com/) 克隆 `SafariLauncher` 得到本地拷贝：
 ```bash
 git clone https://github.com/snevesbarros/SafariLauncher.git
 ```
 
-Once you have a local copy of the source code for the `SafariLauncher` app, open
-[Xcode](https://developer.apple.com/xcode/) and then open the `SafariLauncher` project
+在本地有了 `SafariLauncher` 应用的源码后用 [Xcode](https://developer.apple.com/xcode/) 打开 `SafariLauncher` 项目
 
-![Opening SafariLauncher project](ios-uiautomation-safari-launcher-img/opening.png)
+![打开 SafariLauncher 项目](ios-uiautomation-safari-launcher-img/opening.png)
 
-In the `SafariLauncher` target pane you will see an error, saying that there needs
-to be a provisioning profile for this app
+在 `SafariLauncher` target 面板会看到应用需要 provisioning profile 的错误提示。
 
-![No provisioning profile error](ios-uiautomation-safari-launcher-img/no-provisioning-profile.png)
+![缺少 provisioning profile 错误](ios-uiautomation-safari-launcher-img/no-provisioning-profile.png)
 
-In order to fix this, you first need to enter a "Bundle Identifier" for the app. The default
-expected by Appium is `com.bytearc.SafariLauncher`, but this might not be available
-for you to build. In that case, choose something else, and make note of it. Then
-choose a "Team", and allow the provisioning profile to be created
+修复错误需要先输入应用的 "Bundle Identifier"，默认情况 Appium 使用 `com.bytearc.SafariLauncher`。如果用这个不能构建就换一个并记下来。然后选择 "Team"，接着允许创建 provisioning profile。
 
-![Fixing provisioning profile error](ios-uiautomation-safari-launcher-img/changing-bundleid.png)
+![修复 provisioning profile 错误](ios-uiautomation-safari-launcher-img/changing-bundleid.png)
 
-Finally, make sure your device is connected to the computer, and choose it as the
-target
+最后选择连上电脑的设备作为目标
 
-![Choosing device](ios-uiautomation-safari-launcher-img/choosing-target.png)
+![选择设备](ios-uiautomation-safari-launcher-img/choosing-target.png)
 
-And run the build and install actions to compile the app and push it onto your
-device
+执行 "Run"，构建后安装 app 到你的设备上
 
-![Running SafariLauncher](ios-uiautomation-safari-launcher-img/running.png)
+![运行 SafariLauncher](ios-uiautomation-safari-launcher-img/running.png)
 
-Now you have a working `SafariLauncher` on your device. The app itself is a plain
-screen that will launch `Safari` at the click of a button
+现在 `SafariLauncher` 可以在你的设备上工作了。app 只有一个简单的页面，点击按钮会启动 `Safari`
 
 ![SafariLauncher on device](ios-uiautomation-safari-launcher-img/safarilauncher.png)
 
-The last step is only necessary if you chose a bundle identifier for the app that
-is different from the default (`com.bytearc.SafariLauncher`). If you did, it is
-necessary to send that to Appium when creating a session, using the `bundleId`
-desired capability:
+最后一步只有在你没有使用默认 bundle identifier(`com.bytearc.SafariLauncher`) 的情况下才需要。Appium 在创建会话时需要通过 `bundleId` desired capability 知道你使用的 bundle identifier：
 ```js
 {
   udid: '...',
