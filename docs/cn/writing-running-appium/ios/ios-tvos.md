@@ -1,13 +1,13 @@
-## tvOS support
+## tvOS 支持
 
-- Appium 1.13.0+ has tvOS support via XCUITest driver
-    - It does not work on Apple TV 4K since [ios-deploy](https://github.com/ios-control/ios-deploy) does not work on wireless devices
+- 通过 XCUITest 驱动，Appium 1.13.0+ 支持 tvOS 自动化。
+    - 在 Apple TV 4K 上不支持。因为 [ios-deploy](https://github.com/ios-control/ios-deploy) 不支持无线设备。
 
 <img src="https://user-images.githubusercontent.com/5511591/55161297-876e0200-51a8-11e9-8313-8d9f15a0db9d.gif" width=50%>
 
-## Setup
+## 设置
 
-You can run tests for tvOS by changing the `platformName` capability like it is done below.
+通过修改`platformName`参数，你可以在tvOS上运行测试。
 
 ```json
 {
@@ -19,23 +19,21 @@ You can run tests for tvOS by changing the `platformName` capability like it is 
 }
 ```
 
-Tips to build WDA for tvOS
-- Update to the latest Carthage
-- Be sure tvOS simulator exists in your simulator list if you would like to run your test on tvOS simulators
-    - e.g. `xcrun simctl list | grep "com.apple.CoreSimulator.SimRuntime.tvOS"` shows results
-    - Newer Carthage raises an error like `Could not find any available simulators for tvOS` if tvOS simulators do not exist in tvOS build
+小贴士：编译 WDA 支持 tvOS
+- 更新到最新版本的 Carthage
+- 确保机器上有 tvOS 模拟器
+    - 比如：运行`xcrun simctl list | grep "com.apple.CoreSimulator.SimRuntime.tvOS"`看看结果。
+    - 如果没有tvOS模拟器，新版本的 Carthage 会抛出这样的错误： `Could not find any available simulators for tvOS`
 
-## Limitations
-Gesture commands do not work for tvOS. Some commands such as pasteboard do not work as well.
+## 限制
+tvOS上不支持手势动作，某些命令也不支持，比如`pasteboard`。
 
-We can handle `focus` on tvOS by simply pressing keys such as up/down/left/right/home.
-tvOS performs actions on the _focused_ element. You can get the value of the `focus` attribute via [Attributes API](http://appium.io/docs/en/commands/element/attributes/attribute/). _Get active element_ API returns the focused element.
+我们可以简单地按`up/down/left/right/home`来聚焦（focus）元素。tvOS 在_focused_的元素上执行动作。你可以通过[Attributes API](http://appium.io/docs/cn/commands/element/attributes/attribute/)得到`focus`的元素。_Get active element_ API 会返回聚焦的元素。
 
 
-## Basic Actions
+## 基础动作
 
-_pressButton_ and getting the focused element by _get active element_ are basic actions for tvOS.
-Consider using `wait` methods since tvOS also has animation.
+_pressButton_ 和 _get active element_ 是 tvOS 上的基础动作。由于 tvOS 也有动画，所以需要考虑使用 `wait` 方法。
 
 ```ruby
 # Ruby
@@ -99,18 +97,17 @@ const activeElement = await driver.active();
 await activeElement.getAttribute('label');
 ```
 
-## More actions
-tvOS provides [remote controller](https://developer.apple.com/design/human-interface-guidelines/tvos/remote-and-controllers/remote/) based actions. Appium provides _Buttons_ actions via `mobile: pressButton`. These are `menu`, `up/down/left/right`, `home`, `playpause` and `select`. Available actions are enumerated in the error message if you send unsupported button name to the server.
+## 更多动作
+tvOS 提供基于 [remote controller](https://developer.apple.com/design/human-interface-guidelines/tvos/remote-and-controllers/remote/) 的动作。Appium 通过`mobile: pressButton`提供了 _Buttons_ 等一些列动作，包括 `menu`，`up/down/left/right`，`home`，`playpause` 和 `select`。如果你发送不支持的 button 名字给服务器，在错误信息中会罗列支持的动作。
 
-Appium calculates `up/down/left/right` and `select` sequence automatically if the combination of `find element/s` and `click` is provided. You should not care about which keys should be pressed to reach an arbitrary element every time.
+ 如果提供了 `find element/s` 和 `click`操作 ，Appium 会自动计算 `up/down/left/right` 和 `select` 顺序。你不需要每次都关心哪个按钮被点击了。
+ 你也可以设置一个焦点或者开始/暂停播放。在 tvOS 中，`menu`按钮作为返回键。
 
-You can also handle setting a focus or starting/pausing a playback pressing button actions. `menu` button works as _back_ for iOS context in tvOS.
+## 测试运行环境
+- 使用模拟器或者真机
+- 在支持[HeadSpin](https://headspin.io)的真机上测试或者开发
 
-## Test Running Environment
-- Simulators on your machine or real devices connected to your machine
-- Testing and development on real tvOS devices supported by [HeadSpin](https://headspin.io)
-
-## Resources
-- Related issue:
+## 资源
+- 相关问题:
     - https://github.com/appium/appium/pull/12401
-    - e.g. [appium-xcuitest-driver#911](https://github.com/appium/appium-xcuitest-driver/pull/911), [appium-xcuitest-driver#939](https://github.com/appium/appium-xcuitest-driver/pull/939), [appium-xcuitest-driver#931](https://github.com/appium/appium-xcuitest-driver/pull/931), [appium/WebDriverAgent/pull/163](https://github.com/appium/WebDriverAgent#163)
+    - 比如 [appium-xcuitest-driver#911](https://github.com/appium/appium-xcuitest-driver/pull/911), [appium-xcuitest-driver#939](https://github.com/appium/appium-xcuitest-driver/pull/939), [appium-xcuitest-driver#931](https://github.com/appium/appium-xcuitest-driver/pull/931), [appium/WebDriverAgent/pull/163](https://github.com/appium/WebDriverAgent#163)

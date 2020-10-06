@@ -1,30 +1,19 @@
-## Advanced Applications Management Commands For iOS With WebDriverAgent/XCTest Backend
+## 基于WebDriverAgent/XCTest的iOS应用管理命令进阶版
 
-Since Xcode9 there is a possibility to manage multiple applications in scope of
-a single session. It makes it possible to open iOS preferences and change values
-there while the application under test is in background and then restore it back
-to foreground or check scenarious, where the application under test is
-terminated and then started again. Appium for iOS has special set of `mobile:`
-subcommands, which provides user interface to such features.
+从XCode9开始，我们可以在同一个session里管理多个应用。那我们就可以在被测应用压后台之后，打开iOS设置，去改变一些设置，然后恢复被测应用或者检查对应场景，事实上，改变设置，会使应用退出或者重启。针对iOS系统，Appium有一组特殊的子命令`mobile:`可以提供这些功能的交互。
 
-**Important note:** Make sure you don't cache WebElement instances between
-application restarts, since they are going to be invalidated after each restart.
-
+**重要提示：** 确保在应用重启之间，你没有缓存 WebElement 实例，因为每次重启之后，它们都会变成无效实例。
 
 ### mobile: installApp
 
-Installs given application to the device under test. If the same application is
-already installed then it's going to be installed over the existing one, which
-allows you to test upgrades. Be careful while reinstalling the main application
-under test: make sure that `terminateApp` has been called first, otherwise
-WebDriverAgent will detect the state as a potential crash of the application.
+将应用安装到被测机器上。如果设备上安装过该应用，应用会被覆盖安装，这样可以允许你测试应用升级。在安装被测应用的时候，要注意：确保`terminateApp`先调用，否则WebDriverAgent会认为这是应用闪退。
 
-#### Supported arguments
+#### 支持的参数
 
- * `app`: The path to an existing .ipa/.app file on the server file system,
-   zipped .app file or an URL pointing to a remote .ipa/.zip file. Mandatory argument.
+ * `app`: 应用的路径， .ipa/.app 文件在服务端文件系统里的路径，
+   或者 .app 的zip压缩包，或者 URL 指向网上的 .ipa/.zip 的文件的URL。必填参数。
 
-#### Usage examples
+#### 使用案例
 
 ```java
 // Java
@@ -36,16 +25,13 @@ js.executeScript("mobile: installApp", params);
 
 ### mobile: removeApp
 
-Uninstalls an existing application from the device under test. This endpoint
-does not verify whether the application is already installed or not before
-uninstalling it.
+卸载被测设备上的应用。这个接口不会验证被卸载的应用是否已经安装过。
 
-#### Supported arguments
+#### 支持的参数
 
- * `bundleId`: The bundle identifier of the application, which is going to be
-   uninstalled. Mandatory argument.
+ * `bundleId`: 必填参数，被卸载应用的bundleId
 
-#### Usage examples
+#### 使用案例
 
 ```python
 # Python
@@ -55,15 +41,14 @@ driver.execute_script('mobile: removeApp', {'bundleId': 'com.myapp'});
 
 ### mobile: isAppInstalled
 
-Verifies whether the application with given bundle identifier is installed on
-the device. Returns `true` or `false`.
+验证应用是否在设备上安装，返回`true` 或者 `false`。
 
-#### Supported arguments
+#### 支持参数
 
- * `bundleId`: The bundle identifier of the application, which is going to be
-   verified. Mandatory argument.
 
-#### Usage examples
+ * `bundleId`: 必填参数，应用的bundleId
+
+#### 使用案例
 
 ```java
 // Java
@@ -75,17 +60,15 @@ final boolean isInstalled = (Boolean)js.executeScript("mobile: isAppInstalled", 
 
 ### mobile: launchApp
 
-Executes an existing application on the device. If the application is already
-running then it will be brought to the foreground.
+启动设备上的应用，如果应用已经启动，会加载到前台。
 
-#### Supported arguments
+#### 支持参数
 
- * `bundleId`: The bundle identifier of the application, which is going to be
- executed. Mandatory argument.
- * `arguments`: The list of command line arguments. Optional.
- * `environment`: Environemnt variables mapping. Optional.
+ * `bundleId`: 必填参数，应用的bundleId
+ * `arguments`: 可选参数，命令行参数列表。
+ * `environment`: 可选参数，环境变量的key/value值
 
-#### Usage examples
+#### 使用案例
 
 ```python
 # Python
@@ -97,15 +80,13 @@ driver.execute_script('mobile: launchApp', {'bundleId': 'com.myapp',
 
 ### mobile: terminateApp
 
-Terminates an existing application on the device. If the application is not
-running then the returned result will be `false`, otherwise `true`.
+终止设备上的应用。如果应用没有在运行，返回`false`，否则`true`
 
 #### Supported arguments
 
- * `bundleId`: The bundle identifier of the application, which is going to be
-   terminated. Mandatory argument.
+ * `bundleId`: 必填参数，应用的bundleId
 
-#### Usage examples
+#### 使用案例
 
 ```java
 // Java
@@ -117,16 +98,13 @@ final boolean wasRunningBefore = (Boolean)js.executeScript("mobile: terminateApp
 
 ### mobile: activateApp
 
-Activates an existing application on the device under test and moves it to the
-foreground. The application should be already running in order to activate it.
-The call is ignored if the application is already in foreground.
+激活被测设备上的应用，并加载到前台。应用必须已经在运行。如果应用已经在前台，该调用会被忽略。
 
-#### Supported arguments
+#### 支持参数
 
- * `bundleId`: The bundle identifier of the application, which is going to be
-   brought to the foreground. Mandatory argument.
+ * `bundleId`: 必填参数，应用的bundleId
 
-#### Usage examples
+#### 使用案例
 
 ```python
 # Python
@@ -136,22 +114,19 @@ driver.execute_script('mobile: activateApp', {'bundleId': 'com.myapp'});
 
 ### mobile: queryAppState
 
-Queries the state of an existing application on the device. There are five
-possible application states (check [Apple's documentation](https://developer.apple.com/documentation/xctest/xcuiapplicationstate?language=objc)
-for more details):
+查询设备上应用的当前状态。有五种可能的状态（详见[Apple's documentation](https://developer.apple.com/documentation/xctest/xcuiapplicationstate?language=objc)）：
 
- * `0`: The current application state cannot be determined/is unknown
- * `1`: The application is not running
- * `2`: The application is running in the background and is suspended
- * `3`: The application is running in the background and is not suspended
- * `4`: The application is running in the foreground
+ * `0`: unknown，当前状态未知
+ * `1`: 没有在运行
+ * `2`: 后台挂起
+ * `3`: 后台未挂起
+ * `4`: 前台运行
 
-#### Supported arguments
+#### 支持参数
 
- * `bundleId`: The bundle identifier of the application, which state is going to
-   be queried. Mandatory argument.
+ * `bundleId`: 必填参数，应用的bundleId
 
-#### Usage examples
+#### 使用案例
 
 ```java
 // Java

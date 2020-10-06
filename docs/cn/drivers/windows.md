@@ -32,7 +32,7 @@ capability, at a minimum (see below).
 ### Capabilities
 
 The Windows driver supports a number of standard [Appium
-capabilities](/docs/en/writing-running-appium/caps.md). See below for how these
+capabilities](/docs/cn/writing-running-appium/caps.md). See below for how these
 should be used specifically with the Windows driver.
 
 ### Setup

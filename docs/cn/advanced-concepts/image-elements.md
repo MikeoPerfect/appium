@@ -30,7 +30,7 @@ It's important to keep this important point in mind: there is nothing "magic" ab
 
 Because finding elements by image relies on image analysis software in conjunction with Appium's screenshot functionality and the reference images you yourself provide, we provide a number of settings that help you modulate this feature, in some cases potentially speeding up the match or making it more accurate.
 
-To access these settings, you should use the Appium [Settings API](/docs/en/advanced-concepts/settings.md). These are the settings that are available:
+To access these settings, you should use the Appium [Settings API](/docs/cn/advanced-concepts/settings.md). These are the settings that are available:
 
 |Setting Name|Description|Possible Values|Default Value|
 |------------|-----------|---------------|-------------|
@@ -42,7 +42,7 @@ To access these settings, you should use the Appium [Settings API](/docs/en/adva
 |checkForImageElementStaleness|It can happen that, in between the time you have matched an image element and the time you choose to tap on it, the element is no longer present. The only way for Appium to determine this is to attempt to re-match the template immediately before tapping. If that re-match fails, you will get a `StaleElementException`, as you would expect. Turn this to `false` to skip the check, potentially speeding things up, but potentially running into stale element issues without the benefit of an exception to let you know you did.|`true` or `false`|`true`|
 |autoUpdateImageElementPosition|It can happen that a matched image changes position in between the time it is found and the time you tap on it. As with the previous setting, Appium can automatically adjust its position if it determines in a re-match that the position changed.|`true` or `false`|`false`|
 |imageElementTapStrategy|In order to tap on a found image element, Appium has to use one of its touch action strategies. The available strategies are the W3C Actions API, or the older MJSONWP TouchActions API. Stick to the default unless the driver you are using does not support the W3C Actions API for some reason.|`"w3cActions"` or `"touchActions"`|`"w3cActions"`|
-|getMatchedImageResult| Appium does not store the matched image result. Although, storing the result in memory might help for debugging whether which area is matched by find by image. Appium returns the image against [attribute](http://appium.io/docs/en/commands/element/attributes/attribute/) API as `visual`. | `true` or `false` | `false` |
+|getMatchedImageResult| Appium does not store the matched image result. Although, storing the result in memory might help for debugging whether which area is matched by find by image. Appium returns the image against [attribute](http://appium.io/docs/cn/commands/element/attributes/attribute/) API as `visual`. | `true` or `false` | `false` |
 
 Note that each language-specific Appium client may make these settings available via special constants which could differ slightly from the exact setting names mentioned above.
 
