@@ -60,13 +60,13 @@ Windows驱动程序支持许多标准的[Appium功能](https://github.com/JiangS
 要测试UWP应用，您可以使用任何Selenium支持的语言，只需在应用功能条目中指定被测试应用的ID。 以下是使用C＃编写的案例，针对Windows Alarms＆Clock应用程序创建测试会话的示例：
 
 ```
-	// Launch the AlarmClock app
-	DesiredCapabilities appCapabilities = new DesiredCapabilities();
-	appCapabilities.SetCapability("app", "Microsoft.WindowsAlarms_8wekyb3d8bbwe!App");
-	AlarmClockSession = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), appCapabilities);
-	// Control the AlarmClock app
-	AlarmClockSession.FindElementByAccessibilityId("AddAlarmButton").Click();
-	AlarmClockSession.FindElementByAccessibilityId("AlarmNameTextBox").Clear();
+// Launch the AlarmClock app
+DesiredCapabilities appCapabilities = new DesiredCapabilities();
+appCapabilities.SetCapability("app", "Microsoft.WindowsAlarms_8wekyb3d8bbwe!App");
+AlarmClockSession = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), appCapabilities);
+// Control the AlarmClock app
+AlarmClockSession.FindElementByAccessibilityId("AddAlarmButton").Click();
+AlarmClockSession.FindElementByAccessibilityId("AlarmNameTextBox").Clear();
 ```
 
  测试自己编写的应用程序时，可以在生成的AppX\\vs.appxrecipe文件中找到应用程序ID,如下：
@@ -77,11 +77,11 @@ Windows驱动程序支持许多标准的[Appium功能](https://github.com/JiangS
 要测试经典Windows应用程序，可以使用任何Selenium支持的语言，并在应用程序功能条目中指定被测应用程序的完整可执行路径。 以下是为Windows记事本应用程序创建测试会话的示例：
 
 ```
-	// Launch Notepad
-	DesiredCapabilities appCapabilities = new DesiredCapabilities();
-	appCapabilities.SetCapability("app", @"C:\Windows\System32\notepad.exe");
-	NotepadSession = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), appCapabilities);
-	// Control the AlarmClock app
+// Launch Notepad
+DesiredCapabilities appCapabilities = new DesiredCapabilities();
+appCapabilities.SetCapability("app", @"C:\Windows\System32\notepad.exe");
+NotepadSession = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), appCapabilities);
+// Control the AlarmClock app
 ```
 
 #### 开始会话
