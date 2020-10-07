@@ -1,144 +1,99 @@
-## The Windows Driver
+# Windows驱动程序
+---
 
-Appium has the ability to automate Windows PC Desktop apps. This driver relies
-on a project from Microsoft called
-[WinAppDriver](https://github.com/Microsoft/WinAppDriver), which is an
-Appium-compatible WebDriver server for Windows Desktop apps (and more in the
-future). WinAppDriver is often abbreviated "WAD". WAD is bundled with Appium
-and does not need to be installed separately.
+Appium支持自动运行Windows PC桌面应用程序，该驱动程序依赖于微软的项目[WinAppDriver](https://github.com/Microsoft/WinAppDriver)。WinAppDriver是一个与appium兼容的WebDriver服务器， 适用于Windows桌面应用程序，
+通常缩写为WAD。WAD通常与Appium捆绑在一起安装，不需要单独安装。
 
-The Windows Driver supports testing of **Universal Windows Platform (UWP)** and
-**Classic Windows (Win32)** applications.
+Windows驱动程序支持测试通用Windows平台(UWP)和经典Windows(Win32)应用程序。
 
-In addition to the WAD repo, development of the Appium driver takes place at
-the [appium-windows-driver](https://github.com/appium/appium-windows-driver)
-repo.
-
-### Requirements and Support
-
-In addition to Appium's general requirements:
-
-* Windows PC with Windows 10 or up
-* Ability to enter Administrator mode
-
-### Usage
-
-The way to start a session using the Windows driver is to include the
-`platformName` [capability](#TODO) in your [new session request](#TODO), with
-the value `Windows`. Also, ensure that you set the `deviceName` capability to
-`WindowsPC` as well.  Of course, you must also include an appropriate `app`
-capability, at a minimum (see below).
-
-### Capabilities
-
-The Windows driver supports a number of standard [Appium
-capabilities](/docs/cn/writing-running-appium/caps.md). See below for how these
-should be used specifically with the Windows driver.
-
-### Setup
-
-To test a Windows app, simply make sure you have turned [developer
-mode](https://docs.microsoft.com/en-us/windows/uwp/get-started/enable-your-device-for-development)
-on.
-
-When running Appium (whether Appium Desktop or from the command line), ensure
-that you have started the app / cmd prompt as an administrator.
-
-### Writing Tests for the Windows Driver
-
-You could begin by taking a look at some existing samples:
-
-**Java Samples**<br/>
-1. Open the sample folder as an existing project in a Java IDE such as
-   IntelliJ. For example:
-   [CalculatorTest](https://github.com/Microsoft/WinAppDriver/tree/master/Samples/Java/CalculatorTest)
-2. In the Java IDE build and run the test
-
-**C# Samples**<br/>
-1. Pull and open `CalculatorTest.sln` under
-   [CalculatorTest](https://github.com/Microsoft/WinAppDriver/tree/master/Samples/C%23/CalculatorTest)
-2. In Visual Studio 2015 with the test solution open build the test and select
-   **Test > Run > All Tests**
-
-**Javascript/node Samples**
-
-1. Using selenium-webdriver
-
-    [Examples on selenium-appium](https://github.com/react-native-windows/selenium-appium/tree/master/example)
-
-    [selenium-webdriver-winappdriver-example](https://github.com/react-native-windows/selenium-webdriver-winappdriver-example)
+除了WAD存储库，Appium也在[appium-windows-driver](https://github.com/appium/appium-windows-driver)存储库中进行开发。
 
 
-If you want to write tests from scratch, you can choose any programming
-language or tools supported by Appium/Selenium to write your test scripts. In
-the example below, we will author the test script in C# using Microsoft Visual
-Studio 2015.
+## 需求和支持
+（除了Appium的一般要求外）
+* 装有Windows 10或更高版本的Windows PC
+* 支持进入管理员模式
 
-#### Create Test Project
+## 使用
+使用Windows驱动程序启动回话的方法：
+* 确保在[新的会话请求](https://github.com/JiangSine/appium/blob/master/docs/cn/drivers/windows.md#TODO)中包含platformName[功能](https://github.com/JiangSine/appium/blob/master/docs/cn/drivers/windows.md#TODO)且值为Windows
+* 确保deviceName功能设置为WindowsPC
+* 至少包括适当的应用程序功能（请参阅下文）
 
-1. Open **Microsoft Visual Studio 2015**
-2. Create the test project and solution. I.e. select **New Project > Templates > Visual C# > Test > Unit Test Project**
-3. Once created, select **Project > Manage NuGet Packages... > Browse** and
-   search for **Appium.WebDriver**
-4. Install the **Appium.WebDriver** NuGet packages for the test project
-5. Start writing your test (see sample code under [samples])
+## 功能
+Windows驱动程序支持许多标准的[Appium功能](https://github.com/JiangSine/appium/blob/master/docs/cn/writing-running-appium/caps.md)。请参阅下面的内容，了解如何将他们专门用于Windows驱动程序。
 
-#### Universal Windows Platform App Testing
+### 设置
+确保打开[开发人员模式](https://docs.microsoft.com/en-us/windows/uwp/get-started/enable-your-device-for-development)即可进行Windows应用测试。
 
-To test a UWP app, you can use any Selenium supported language and simply
-specify the **Application Id** for the app under test in the **app**
-capabilities entry. Below is an example of creating a test session for Windows
-**Alarms & Clock** app written in C#:
+在运行Appium时，无论是通过Appium Desktop启动还是命令行启动，请确保以管理员身份进行操作。
 
-```c#
-// Launch the AlarmClock app
-DesiredCapabilities appCapabilities = new DesiredCapabilities();
-appCapabilities.SetCapability("app", "Microsoft.WindowsAlarms_8wekyb3d8bbwe!App");
-AlarmClockSession = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), appCapabilities);
-// Control the AlarmClock app
-AlarmClockSession.FindElementByAccessibilityId("AddAlarmButton").Click();
-AlarmClockSession.FindElementByAccessibilityId("AlarmNameTextBox").Clear();
+### 为Windows驱动程序编写测试脚本
+您可以参照现有示例：
+
+#### Java样本
+1. 在Java IDE(例如IntelliJ)中，将示例文件夹作为现有项目打开。例如：[CalculatorTest](https://github.com/Microsoft/WinAppDriver/tree/master/Samples/Java/CalculatorTest).
+2. 在Java IDE中构建并运行测试。
+
+#### C#示例
+1. 在[CalculatorTest](https://github.com/Microsoft/WinAppDriver/tree/master/Samples/C%23/CalculatorTest)文件下拉出并打开CalculatorTest.sln
+2. 在带有测试解决方案的Visual Studio 2015中打开构建测试，选择测试->运行->所有测试。
+
+#### JavaScript/node示例
+1. 使用selenium-webdriver
+
+[Examples on selenium-appium](https://github.com/react-native-windows/selenium-appium/tree/master/example)
+
+[selenium-webdriver-winappdriver-example](selenium-webdriver-winappdriver-example)
+
+如果您想从头开始编写测试，则可以选择Appium/Selenium支持的任何编程语言或工具来编写测试脚本。 在下面的示例中，我们将使用Microsoft Visual Studio 2015在C＃中编写测试脚本。
+
+#### 创建测试项目
+
+1. 打开Microsoft Visual Studio 2015
+2. 创建测试项目和解决方案。 选择“新建项目”>“模板”>“ Visual C＃”>“测试”>“单元测试项目”
+3. 创建完成后，选择“项目”>“管理NuGet程序包...”>浏览并搜索Appium.WebDriver
+4. 为测试项目安装Appium.WebDriver NuGet软件包
+5. 开始编写测试（请参阅[示例]下的示例代码）
+
+#### 通用Windows平台应用程序测试
+要测试UWP应用，您可以使用任何Selenium支持的语言，只需在应用功能条目中指定被测试应用的ID。 以下是使用C＃编写的案例，针对Windows Alarms＆Clock应用程序创建测试会话的示例：
+
+```
+	// Launch the AlarmClock app
+	DesiredCapabilities appCapabilities = new DesiredCapabilities();
+	appCapabilities.SetCapability("app", "Microsoft.WindowsAlarms_8wekyb3d8bbwe!App");
+	AlarmClockSession = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), appCapabilities);
+	// Control the AlarmClock app
+	AlarmClockSession.FindElementByAccessibilityId("AddAlarmButton").Click();
+	AlarmClockSession.FindElementByAccessibilityId("AlarmNameTextBox").Clear();
 ```
 
-When testing the application you authored yourself, you can find the **Application Id** in the generated `AppX\vs.appxrecipe` file under `RegisteredUserNmodeAppID` node. E.g. ```c24c8163-548e-4b84-a466-530178fc0580_scyf5npe3hv32!App```
+ 测试自己编写的应用程序时，可以在生成的AppX\\vs.appxrecipe文件中找到应用程序ID,如下：
 
-#### Classic Windows App Testing
+`RegisteredUserNmodeAppID` node. E.g. `c24c8163-548e-4b84-a466-530178fc0580_scyf5npe3hv32!App`
 
-To test a classic Windows app, you can also use any Selenium supported language
-and specify the **full executable path** for the app under test in the **app**
-capabilities entry. Below is an example of creating a test session for Windows
-**Notepad** app:
+#### 经典Windows App测试
+要测试经典Windows应用程序，可以使用任何Selenium支持的语言，并在应用程序功能条目中指定被测应用程序的完整可执行路径。 以下是为Windows记事本应用程序创建测试会话的示例：
 
-```c#
-// Launch Notepad
-DesiredCapabilities appCapabilities = new DesiredCapabilities();
-appCapabilities.SetCapability("app", @"C:\Windows\System32\notepad.exe");
-NotepadSession = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), appCapabilities);
-// Control the AlarmClock app
-NotepadSession.FindElementByClassName("Edit").SendKeys("This is some text");
+```
+	// Launch Notepad
+	DesiredCapabilities appCapabilities = new DesiredCapabilities();
+	appCapabilities.SetCapability("app", @"C:\Windows\System32\notepad.exe");
+	NotepadSession = new WindowsDriver<WindowsElement>(new Uri("http://127.0.0.1:4723"), appCapabilities);
+	// Control the AlarmClock app
 ```
 
-#### Starting a Session
+#### 开始会话
+如上所述，请使用以下功能来确保获得Windows App自动化会话：
 
-As mentioned above, you should additionally use these capabilities to ensure
-you are getting a Windows App automation session:
+`platformName：Windows deviceName：WindowsPC app：`用于测试的Windows应用程序的appID，或.exe文件的路径
 
-`platformName`: `Windows`
-`deviceName`: `WindowsPC`
-`app`: the appID of the Windows app for testing, or the path to the .exe file
+#### 检查UI元素
+默认情况下，Microsoft Visual Studio 2015包括Windows SDK，该SDK提供了很好的工具来检查您正在测试的应用程序。 通过该工具，您可以使用Windows应用程序驱动程序查询的每个UI元素/节点。 可以在Windows SDK文件夹（例如C：\\Program Files（x86）\\Windows Kits\\10\\bin\\x86）下找到inspect.exe工具。 该工具将显示各种元素属性。 下表显示了应使用哪种Appium定位器策略来查找具有相应属性的元素。
 
-#### Inspecting UI Elements
-
-Microsoft Visual Studio 2015 by default includes Windows SDK that provides
-great tool to inspect the application you are testing. This tool allows you to
-see every UI element/node that you can query using Windows Application Driver.
-This **inspect.exe** tool can be found under the Windows SDK folder such as
-`C:\Program Files (x86)\Windows Kits\10\bin\x86`. The tool will show various
-element attributes. The table below shows you which Appium locator strategy you
-should use to find elements with the corresponding attributes.
-
-| Locator Strategy| Matched Attribute|
-|-----------------|------------------|
-| accessibility id|   AutomationId   |
-|    class name   |     ClassName    |
-|       name      |       Name       |
+| 定位策略          | 匹配属性         |
+| :---             | :---            |
+| accessibility id | AutomationId    |
+| class name       | ClassName       |
+| name             | Name            |
