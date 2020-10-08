@@ -1,16 +1,17 @@
-## Finding and Interacting with Image Elements
+## 寻找图像元素并与之交互
 
-Using the experimental `-image` locator strategy, it is possible to send an Appium an image file representing an element you want to tap. If Appium can find a screen region matching your template, it will wrap up information about this region as a standard `WebElement` and send it back to your Appium client.
+使用实验性的 `-image` 定位器策略，可以给Appium发送一个代表你想点击的元素的图片文件。如果Appium能找到一个与你的模板相匹配的屏幕区域，它将把这个区域的信息包装成一个标准的 `WebElement`，并把它发回给你的Appium客户端。
 
-The strategy will be made available differently for each Appium client, for example: `driver.findElementByImage()`.
 
-### Image Selectors
+该策略将为每个Appium客户端提供不同的方法，例如：`driver.findElementByImage()`。
 
-In conjunction with any locator strategy, you need to use a "selector" which details the specific nature of your find request. In the case of the `-image` strategy, the selector must be a string which is a base64-encoded image file representing the template you want to use for matching.
+### 图像选择器
 
-### Image Elements
+结合任何定位器策略，你需要使用一个"选择器"来详细说明你的查找请求的具体性质。在 `-image` 策略的情况下，选择器必须是一个字符串，它是一个代表你要使用的匹配模板的base64编码的图像文件。
 
-If the image match is successful, Appium will cache information about the match and create a standard response for your client to consume, resulting in the instantiation of a standard element object in your test script. Using this element object, you are able to call a small number of methods on the "Image Element", as if it were a bona-fide `WebElement`:
+### 图像元素
+
+如果图片匹配成功，Appium会缓存匹配信息，并创建一个标准响应供你的客户端使用，从而在你的测试脚本中实例化一个标准元素对象。使用这个元素对象，你可以在"图像元素"上调用少量的方法，就像它是一个真正的`WebElement`一样：
 
 * `click`
 * `isDisplayed`
@@ -19,49 +20,50 @@ If the image match is successful, Appium will cache information about the match 
 * `getLocationInView`
 * `getElementRect`
 * `getAttribute`
-    * `visual` returns matched image as base64 data if `getMatchedImageResult` is `true`
-    * `score` returns the similarity score as a float number in range `[0.0, 1.0]` sine Appium 1.18.0
+    * 如果 `getMatchedImageResult` 为 `true`，`visual` 将返回匹配的图像作为base64数据
+    * 从 Appium 1.18.0 开始，`score`以浮点数形式返回相似度分数，范围为`[0.0, 1.0]`。
 
-These actions are supported on "Image Elements" because they are the actions which involve only use of screen position for their functioning. Other actions (like `sendKeys`, for example) are not supported, because all Appium can know based on your template image is whether or not there is a screen region which visually matches it--Appium has no way of turning that information into a driver-specific UI element object, which would be necessary for the use of other actions.
+这些动作在"图像元素"上是被支持的，因为它们是只涉及使用屏幕位置的动作。其他的动作(比如`sendKeys`)是不支持的，因为Appium基于你的模板图像所能知道的就是是否有一个屏幕区域在视觉上与之匹配--Appium没有办法将这些信息转化为特定于驱动程序的UI元素对象，而这对于其他动作的使用是必要的。
 
-It's important to keep this important point in mind: there is nothing "magic" about Image Elements---they merely reference screen coordinates, and thus "tapping" an Image Element is internally nothing more than Appium constructing a tap at a point in the center of the Image Element's screen bounds (and in fact you can tell Appium which API to use to perform that tap---see below).
+重要的是要记住这一点：图像元素并没有什么"魔力"--它们只是参考屏幕坐标，因此 "点击 "图像元素在内部不过是Appium在图像元素的屏幕边界中心点构造一个点击（事实上你可以告诉Appium使用哪种API来执行这个点击--见下文）。
 
-### Related Settings
+### 相关设置
 
-Because finding elements by image relies on image analysis software in conjunction with Appium's screenshot functionality and the reference images you yourself provide, we provide a number of settings that help you modulate this feature, in some cases potentially speeding up the match or making it more accurate.
+由于通过图像寻找元素依赖于图像分析软件与Appium的截图功能和你自己提供的参考图像相结合，我们提供了一些设置，帮助你调节这个功能，在某些情况下可能会加快匹配速度或使其更准确。
 
-To access these settings, you should use the Appium [Settings API](/docs/cn/advanced-concepts/settings.md). These are the settings that are available:
+要访问这些设置，你应该使用Appium [设置API](/docs/en/advanced-concepts/settings.md)。这些是可用的设置。
 
-|Setting Name|Description|Possible Values|Default Value|
+|设置名称|说明|可能值|默认值|
 |------------|-----------|---------------|-------------|
-|imageMatchThreshold|The OpenCV match threshold below which to consider the find a failure. Basically the range of possibilities is between 0 (which means no threshold should be used) and 1 (which means that the reference image must be an exact pixel-for-pixel match). The exact values in between have no absolute meaning. For example a match that requires drastic resizing of a reference image will come out as a lower match strength than otherwise. It's recommended you try the default setting, and then incrementally lower the threshold if you're not finding matching elements. If you're matching the wrong element, try increasing the threshold value.|Numbers from 0 to 1|0.4|
-|fixImageFindScreenshotDims|Appium knows the screen dimensions, and ultimately these are the dimensions which are relevant for deciding where to tap on the screen. If the screenshot retrieved (via Appium's native methods, or an external source) does not match the screen dimensions, this setting dictates that Appium will adjust the size of the screenshot to match, ensuring that matched elements are found at the correct coordinates. Turn this setting off if you know it's not necessary, and Appium will forego the check, potentially speeding things up a bit.|`true` or `false`|`true`|
-|fixImageTemplateSize|OpenCV will not allow the matching of a reference image / template if that image is larger than the base image to match against. It can happen that the reference image you send in has dimensions which are larger than the screenshot Appium retrieves. In this case the match will automatically fail. If you set this setting to `true`, Appium will resize the template to ensure it is at least smaller than the size of the screenshot.|`true` or `false`|`false`|
-|fixImageTemplateScale| Appium resizes a base image to fit its window size before matching them with OpenCV. If you set this setting to `true`, Appium scales a reference image you send in as the same scale Appium scales the base image to fit the window size. e.g. iOS screenshot is `750 × 1334` pixels base image. The window size is `375 x 667`. Appium rescale the base image to window size scaling it with `0.5`. A reference image is based on the screenshot size, never the image matches with the window size scale. This settings allow Appium to scale the reference image with `0.5`. [appium-base-driver#306](https://github.com/appium/appium-base-driver/pull/306)| `true` or `false` | `false` |
-|defaultImageTemplateScale| Appium does not resize template images by default (the value of 1.0). Although, storing scaled template images might help to save size of the storage. E.g. One has could represent 1080 × 126 pixels area by 270 × 32 pixels template image (the value of defaultImageTemplateScale is expected to be set to 4.0). Check [appium-base-driver#307](https://github.com/appium/appium-base-driver/pull/307) for more details. |e.g., `0.5`, `10.0`, `100`| `1.0` |
-|checkForImageElementStaleness|It can happen that, in between the time you have matched an image element and the time you choose to tap on it, the element is no longer present. The only way for Appium to determine this is to attempt to re-match the template immediately before tapping. If that re-match fails, you will get a `StaleElementException`, as you would expect. Turn this to `false` to skip the check, potentially speeding things up, but potentially running into stale element issues without the benefit of an exception to let you know you did.|`true` or `false`|`true`|
-|autoUpdateImageElementPosition|It can happen that a matched image changes position in between the time it is found and the time you tap on it. As with the previous setting, Appium can automatically adjust its position if it determines in a re-match that the position changed.|`true` or `false`|`false`|
-|imageElementTapStrategy|In order to tap on a found image element, Appium has to use one of its touch action strategies. The available strategies are the W3C Actions API, or the older MJSONWP TouchActions API. Stick to the default unless the driver you are using does not support the W3C Actions API for some reason.|`"w3cActions"` or `"touchActions"`|`"w3cActions"`|
-|getMatchedImageResult| Appium does not store the matched image result. Although, storing the result in memory might help for debugging whether which area is matched by find by image. Appium returns the image against [attribute](http://appium.io/docs/cn/commands/element/attributes/attribute/) API as `visual`. | `true` or `false` | `false` |
+|imageMatchThreshold|OpenCV的匹配阈值，低于这个阈值就认为查找失败。基本上，可能性的范围是在0（意味着不使用阈值）和1（意味着参考图像必须是完全像素对像素的匹配）之间。中间的精确值没有绝对意义。例如，一个需要大幅调整参考图像大小的匹配会比其他情况下的匹配强度低。建议你先尝试默认设置，如果没有找到匹配元素，再逐步降低阈值。如果你匹配到了错误的元素，可以尝试增加阈值。| 0到1之间 |0.4|
+|fixImageFindScreenshotDims|Appium知道屏幕尺寸，最终这些尺寸是决定在屏幕上点击的位置的相关尺寸。如果检索到的屏幕截图（通过Appium的本地方法，或外部来源）与屏幕尺寸不匹配，这个设置决定了Appium会调整屏幕截图的尺寸来匹配，确保在正确的坐标上找到匹配的元素。如果你知道这不是必要的，请关闭这个设置，Appium会放弃检查，可能会加快一些速度。|`true` 或 `false`|`true`|
+|fixImageTemplateSize|如果一个参考图片/模板的尺寸大于要匹配的基础图片，OpenCV将不允许匹配该图片。可能发生的情况是，你发送的参考图片的尺寸比Appium检索的截图大。在这种情况下，匹配会自动失败。如果你把这个设置为 `true`，Appium会调整模板的大小，以确保它至少比截图的尺寸小。|`true` 或 `false`|`false`|
+|fixImageTemplateScale| Appium在与OpenCV匹配之前，会调整基础图像的大小以适应其窗口大小。如果你把这个设置设置为 `true`，Appium就会把你发送的参考图像按同样的比例缩放，Appium就会把基础图像按比例缩放以适应窗口大小。例如iOS截图是`750×1334`像素的基础图片，窗口大小为`375×667`时，Appium将基础图像重新缩放为窗口大小，缩放比例为`0.5`。参考图像是基于屏幕截图尺寸，从来没有图像与窗口尺寸的比例。这个设置允许Appium用`0.5`来缩放参考图像。[appium-base-driver#306](https://github.com/appium/appium-base-driver/pull/306)| `true` 或 `false` | `false` |
+|defaultImageTemplateScale| Appium默认不调整模板图片的大小(值为1.0)。虽然，存储缩放的模板图像可能有助于节省存储空间的大小。例如，一个人可以用270×32像素的模板图像来表示1080×126像素的区域(defaultImageTemplateScale的值被期望设置为4.0)。更多细节请参考[appium-base-driver#307](https://github.com/appium/appium-base-driver/pull/307)。|例如 `0.5`, `10.0`, `100`| `1.0` |
+|checkForImageElementStaleness|可能发生的情况是，在你匹配了一个图像元素和你选择点击它之间，这个元素已经不存在了。Appium判断这一点的唯一方法就是在点选之前尝试重新匹配模板。正如你所期望的那样，如果重新匹配失败，你会得到一个`StaleElementException`。将这个选项转为`false`来跳过检查，可能会加快检查速度，但也有可能会遇到陈旧元素的问题，而没有一个异常让你知道你跳过了。|`true` 或 `false`|`true`|
+|autoUpdateImageElementPosition|匹配的图像在找到它和你点击它之间可能会发生位置变化。和之前的设置一样，如果Appium在重新匹配中确定位置改变了，它可以自动调整位置。|`true` 或 `false`|`false`|
+|imageElementTapStrategy|为了点击找到的图片元素，Appium必须使用其中一个触摸动作策略。可用的策略是W3C Actions API，或旧的MJSONWP TouchActions API。除非你使用的驱动因某些原因不支持W3C Actions API，否则请坚持使用默认策略。|`"w3cActions"` 或 `"touchActions"`|`"w3cActions"`|
+|getMatchedImageResult| Appium不存储匹配的图像结果。虽然，将结果存储在内存中可能会有助于调试是否有哪个区域被find by image匹配。Appium会将[属性](http://appium.io/docs/en/commands/element/attributes/attribute/)API中的图像作为`visual`返回。 | `true` 或 `false` | `false` |
 
-Note that each language-specific Appium client may make these settings available via special constants which could differ slightly from the exact setting names mentioned above.
+请注意，每个特定语言的Appium客户端可能会通过特殊的常量来提供这些设置，这些常量可能会与上面提到的确切设置名称略有不同。
 
-### Debug
+### 调试
 
-`getMatchedImageResult` might help for debugging if Appium found the provided image expectedly. `visual` attribute returns base64 data if `getMatchedImageResult` is `true`.
+`getMatchedImageResult`可能有助于调试Appium是否能如期找到所提供的图片。如果`getMatchedImageResult`是`true`，`visual`属性会返回base64数据。
 
 ```ruby
 # Ruby core
 @driver.update_settings({ getMatchedImageResult: true })
 el = @driver.find_element_by_image 'path/to/img.ong'
-img_el.visual # returns base64 encoded string
+img_el.visual # 返回base64编码的字符串
 ```
 
 ```python
 # Python
 self.driver.update_settings({"getMatchedImageResult": True})
 el = self.driver.find_element_by_image('path/to/img.ong')
-el.get_attribute('visual') # returns base64 encoded string
+el.get_attribute('visual') # 返回base64编码的字符串
 ```
 
-reference: https://github.com/appium/appium-base-driver/pull/327
+参考: https://github.com/appium/appium-base-driver/pull/327
+
