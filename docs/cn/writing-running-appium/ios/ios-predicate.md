@@ -1,5 +1,7 @@
 ## iOS 谓词(Predicate)
 
+*注意*: iOS 谓词(Predicate)在 iOS 9.3及以下系统，使用 `-ios uiautomation` 定位策略，在 iOS 10 及以上系统，使用 `-ios predicate string` 定位策略。
+
 在查看 *'-ios uiautomation'* 搜索策略时了解 **谓词(Predicate)** 十分必要。 [UIAutomation JavaScript API](https://web.archive.org/web/20160904214108/https://developer.apple.com/library/ios/documentation/DeveloperTools/Reference/UIAutomationRef/)有下列几种非常有用的方法:
 
 ```center
@@ -12,11 +14,18 @@
 
 （翻译备注：XPath 是一门用来定位 xml 文档中的元素的语言，能提供基于路径、元素属性等条件的定位策略）
 
-例如:
+使用 '-ios uiautomation'示例:
 
 ```java
 // java
 appiumDriver.findElementsByIosUIAutomation("collectionViews()[0].cells().withPredicate(\"ANY staticTexts.isVisible == TRUE\")")
+```
+
+使用 '-ios predicate string'示例:
+
+```java
+// java
+appiumDriver.findElementsByIosNsPredicate("isWDVisible == 1");
 ```
 
 \-  将只选择那些在主视图第一个 ```UIACollectionView``` 元素下的、拥有可见子元素 ```UIAStaticText``` 的 ```UIACollectionCell``` 元素。在这里， ```staticTexts()``` 和 ```isVisible()``` 分别是```UIAElementArray``` 和 ```UIAElement``` 的子方法。 **注意： ```UIAElementArray``` 序列编号从 ```0``` 开始，而不是像 Xpath 那样从 ```1```开始**
@@ -156,7 +165,6 @@ array[SIZE]
 - 指定数组的大小
 ```center
 elements()[0].tableViews()[0].cells().withPredicate("staticTexts[SIZE] > 2")
-
 same in Xpath: /*[1]/UIATableView[1]/UIATableCell[count(UIAStaticText) > 2]
 ```
 

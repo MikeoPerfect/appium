@@ -29,7 +29,7 @@ js.executeScript("mobile: swipe", params);
 
 ### mobile: scroll
 
-滚动元素或整个屏幕。支持不同的滚动策略。该方法提供了4个可选择滑动策略：按照顺序有“name”，“direction”，“predicateString”或“toVisible”。所有的滑动策略都是排他性的，一次滑动只能选择一个策略。你可以使用`mobile:scroll`来对表格中或者集合视图中的某个已知控件进行精确的滚动操作。然而目前有一个已知的局限问题：如果需要在父容器上执行太多的滚动手势来达到必要的子元素（其中几十个），则方法调用可能会失败。
+滚动元素或整个屏幕。支持不同的滚动策略。该方法提供了4个可选择滑动策略：按照顺序有“name”，“direction”，“predicateString”或“toVisible”。所有的滑动策略都是排他性的，一次滑动只能选择一个策略。你可以使用`mobile:scroll`来对表格中或者集合视图中的某个已知控件进行精确的滚动操作。然而目前有一个已知的局限问题：如果需要在父容器上执行太多的滚动手势到达指定的某个子元素（几十个子元素），则方法调用可能会失败。
 
 #### 支持参数
 
@@ -86,7 +86,7 @@ driver.execute('mobile: doubleTap', {element: element.value.ELEMENT});
 
 ### mobile: touchAndHold
 
-在指定控件上或屏幕上长按的手势操作。
+在指定控件或屏幕上长按的手势操作。
 
 #### 支持参数
 
@@ -174,7 +174,7 @@ js.executeScript("mobile: dragFromToForDuration", params);
 
 ### mobile: selectPickerWheelValue
 
-选择下一个或上一个picker wheel的值。 如果这些值是动态的，那么这个方法是能起作用的。XCTest有一个BUG就是你并不能知道要选择哪一个或者当前的选择区域是否生效。
+选择下一个或上一个picker wheel的值。 如果这些值是动态的，那么这个方法是能起作用的。XCTest有一个BUG，就是你并不能知道要选择哪一个，或者当前的选择区域是否生效。
 
 #### 支持参数
 
@@ -211,10 +211,36 @@ js.executeScript("mobile: selectPickerWheelValue", params);
 driver.execute_script('mobile: alert', {'action': 'accept', 'buttonLabel': 'My Cool Alert Button'});
 ```
 
+### mobile: tapWithNumberOfTaps
+
+ 从Appium 1.17.1.开始，对单个或者多个接触点，点击一次或者多次。
+ 
+#### 支持参数
+
+ * _element_: 要执行一次或多次点击的内部元素标识符（用十六进制字符串表示）
+ * _numberOfTaps_: 点击次数
+ * _numberOfTouches_: 接触点数量
+
+#### 用法示例
+
+
+```ruby
+# Ruby
+e = @driver.find_element :id, 'target element'
+# Taps the element with a single touch point twice
+@driver.execute_script 'mobile: tapWithNumberOfTaps', {element: e.ref, numberOfTaps: 2, numberOfTouches: 1}
+```
+
+#### 参考
+[tapWithNumberOfTaps:numberOfTouches:](https://developer.apple.com/documentation/xctest/xcuielement/1618671-tapwithnumberoftaps)
+
 
 ### 进阶主题
 
+
 查看 [WDA Element Commands API](https://github.com/facebook/WebDriverAgent/blob/master/WebDriverAgentLib/Commands/FBElementCommands.m)
 以获取有关在Facebook WebDriverAgent中实现的手势的信息。
+
+XCTest文档列出了关于[XCUIElement](https://developer.apple.com/documentation/xctest/xcuielement)和[XCUICoordinate](https://developer.apple.com/documentation/xctest/xcuicoordinate)方法所有可用手势的信息。
 
 本文由 [大东](https://testerhome.com/Anikikun) 翻译，由 [lihuazhang](https://github.com/lihuazhang) 校验。

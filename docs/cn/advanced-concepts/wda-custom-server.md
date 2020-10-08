@@ -1,6 +1,6 @@
 ## 如何搭建并定制 WebDriverAgent Server
 
-Appium 的 iOS 版本的后端用的是[Facebook's WebDriverAgent](https://github.com/facebook/WebDriverAgent)。该后端是基于苹果公司的 XCTest 框架，所以也有所有XCTest 框架已知的问题。其中有些问题我们正在设法解决，有一些在现阶段可能无法解决。本文中描述的方法已经能够使您完全掌握在设备上如何构建、管理和运行WDA。通过这种方式，您可以在CI环境中对您的自动化测试进行微调，并使其在长期运行的情况下更加稳定。
+Appium 的 iOS 版本的后端用的是[Facebook's WebDriverAgent](https://github.com/facebook/WebDriverAgent)。该后端是基于苹果公司的 XCTest 框架，所以也有所有 XCTest 框架已知的问题。其中有些问题我们正在设法解决，有一些在现阶段可能无法解决，如 https://github.com/facebookarchive/WebDriverAgent/issues/507 。本文中描述的方法已经能够使您完全掌握在设备上如何构建、管理和运行WDA。通过这种方式，您可以在CI环境中对您的自动化测试进行微调，并使其在长期运行的情况下更加稳定。
 
 重点：
  * 如果使用了Appium的默认设置，则不需要如下的步骤。服务器将为您搞定一切，当然你也不能对WDA做太多控制。
@@ -8,26 +8,28 @@ Appium 的 iOS 版本的后端用的是[Facebook's WebDriverAgent](https://githu
 
 ### 安装WDA 
 
-Appium 会自动下载 WebDriverAgent 源码。如果使用 npm 命令（`npm install -g appium`） 安装Appium的话，通常情况下会保存在/usr/local/lib/node_modules/appium/node_modules/appium-xcuitest-driver/WebDriverAgent 目录下。
-如果是首次安装的话，还需要下载一些第三方依赖("carthage"工具就是为此准备的: `brew install carthage`):
+Appium 会自动下载 WebDriverAgent 源码。如果使用 npm 命令（`npm install -g appium`）安装Appium的话，通常情况下会保存在/usr/local/lib/node_modules/appium/node_modules/appium-xcuitest-driver/WebDriverAgent目录下。
+如果是首次安装的话，还需要下载一些第三方依赖("carthage"工具就是为此准备的:`brew install carthage`):
 
 ```bash
 cd /usr/local/lib/node_modules/appium/node_modules/appium-xcuitest-driver/WebDriverAgent
 ./Scripts/bootstrap.sh -d
 ```
 
-不需要进一步的配置步骤，你就可以在iOS模拟器上执行自动化测试。
-
-如果是在真机上进行测试的话，则需要做更多的设置。参考[real device configuration documentation](https://github.com/appium/appium-xcuitest-driver/blob/master/docs/real-device-config.md) 设置代码签名。另外，你还需要安装iproxy工具。
+并且，可能需要为 WDA 源码创建一个空文件夹：
 
 ```bash
-npm install -g iproxy
+mkdir -p /usr/local/lib/node_modules/appium/node_modules/appium-webdriveragent/Resources/WebDriverAgent.bundle
 ```
+
+如果是在iOS模拟器上执行自动化测试，是不需要进一步配置的。
+
+但如果是在真机上进行测试的话，则需要进一步配置。参考[real device configuration documentation](https://github.com/appium/appium-xcuitest-driver/blob/master/docs/real-device-config.md)设置代码签名。
 
 为了确保 WDA 源代码配置正确，请执行以下操作：
 
-* 用Xcode打开/usr/local/lib/node_modules/appium/node_modules/appium-xcuitest-driver/WebDriverAgent/WebDriverAgent.xcodeproj
-* 选择 "WebDriverAgentRunner" 工程
+* 用Xcode打开 `/usr/local/lib/node_modules/appium/node_modules/appium-xcuitest-driver/WebDriverAgent/WebDriverAgent.xcodeproj`
+* 选择工程*WebDriverAgentRunner*
 * 选择要运行自动化测试的真机/模拟器作为构建目标机
 * 在主菜单中选择 Product -> Test
 
@@ -35,7 +37,10 @@ Xcode 会成功构建项目并安装到真机/模拟器上，所以您将在苹�
 
 ### 启动WDA 
 
-WebDriverAgent 应用程序扮演一个 REST 服务的角色，接收外部 API 请求，然后传递给被测应用的原生 XCTest 调用。如果在模拟器上运行你的测试，REST 服务的地址将是localhost，如果在有实际的 IP 地址的真实设备上运行，REST 服务的地址将是实际的 ip 地址。我们使用 iproxy 将网络请求路由到通过 USB 连接的真实设备上，这意味着可以使用这个工具将模拟器和真实设备上的 WDA 网络地址统一。
+WebDriverAgent 作为一个 REST 服务，监听外部 API 请求，传递给原生 XCTest 调用待测应用。如果是在模拟器上进行测试，REST 服务的地址是 localhost，如果是在真机上运行，REST 服务的地址将是实际的 ip 地址。使用 appium-ios-device(https://github.com/appium/appium-ios-device) 将网络请求路由到通过 USB 连接的真机上，这意味着可以使用这个工具将模拟器和真实设备上的 WDA 网络地址统一。
+
+可以使用 appium-ios-device(https://github.com/appium/appium-ios-device) 连接远程设备，JavaScript 模块代码需要和 Appium 一致。
+此外，也可以使用*iproxy*在 Appium 之外转发 WebDriverAgent。安装命令如下`node install -g iproxy`。
 
 这个用Java编写的助手类说明了主要的实现细节：
 
@@ -272,15 +277,14 @@ public class WDAServer {
 
 ### 重要注释
 
- * 如果是 jenkins agent 执行的，该进程不能直接访问钥匙串（Keychain），所以我们需要在为真实设备编译 WDA 之前准备钥匙串，否则编码将失败。
- * 如果 xcodebuild 和 iproxy 进程已经被冻结，我们在重新启动之前杀死这些进程，以确保编译成功，
- * 我们准备一个单独的 bash 脚本并独立于 iproxy / xcodebuild 进程，所以即使在实际的代码执行完成后，它们也可以在后台继续运行。如果在自动化实验室中的同一机器/节点上执行多个测试/套件，最少的人工干预是非常重要的。
- * 更改 BUILD_ID 环境变量的值以避免在作业完成后由 Jenkins agent 程序杀死后台进程。
- * isRunning 检查是通过验证实际的网络终端来完成的.
+ * 如果是 jenkins agent 执行的，该进程不能直接访问钥匙串（Keychain），所以我们在真机上编译 WDA 前需要提前准备好钥匙串，否则验签会失败。
+ * 就算 xcodebuild 和 iproxy 进程已经被冻结，我们在重新启动之前杀死这些进程，也可以确保编译成功
+ * 我们准备一个单独的 bash 脚本并独立于 iproxy / xcodebuild 进程，所以即使在实际的代码执行完成后，它们也可以在后台继续运行。如果在自动化 lab 中的同一机器/节点上执行多个测试/套件，最少的人工干预是非常重要的。
+ * 更改*BUILD_ID*环境变量的值以避免在作业完成后，后台进程被 Jenkins agent 程序杀死。
+ * 通过验证实际的网络终端，来检查*isRunning*
  * 守护进程的输出会存入日志，因此可以跟踪错误和意外的故障。如果服务器无法启动/重启，日志文件的内容会自动添加到实际的错误消息中。
  * 真机设备ID可以从 `system_profiler SPUSBDataType` 输出中解析
  * 模拟器ID可以从 `xcrun simctl list` 输出中解析
- * UrlChecker 类是从 org.openqa.selenium.net 包导入的
+ * *UrlChecker*类是从 org.openqa.selenium.net 包导入的
 
- 
 本文由 [simple](https://testerhome.com/simple) 翻译，由 [lihuazhang](https://github.com/lihuazhang) 校验。

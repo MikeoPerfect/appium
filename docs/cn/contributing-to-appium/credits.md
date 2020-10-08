@@ -16,9 +16,4 @@
 * [WinAppDriver](http://github.com/Microsoft/WinAppDriver)
 * [WebDriverAgent](https://github.com/facebook/webdriveragent)
 
---
-EOF.
 
-本文由 [ZhaoC](https://github.com/ZhaoC) 翻译，由 [oscarxie](https://github.com/oscarxie) 校验。
-
-Last english version: c986e4a62718b00976b26acb39e07e55f0c204d5, May 25, 2018

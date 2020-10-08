@@ -66,3 +66,4 @@ el.get_attribute('visual') # 返回base64编码的字符串
 ```
 
 参考: https://github.com/appium/appium-base-driver/pull/327
+

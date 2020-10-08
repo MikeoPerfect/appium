@@ -53,9 +53,4 @@ Appium 1.5 移除了大部分旧版本遗留的 CLI 标识；其余部分可转�
 | --show-ios-log            | showIOSLog              |
 | --reboot                  | reboot                  |
 
----
-EOF.
 
-本文由 [thanksdanny](https://testerhome.com/thanksdanny) 翻译
-
-Last english version: a4dd79b8144864cbc034eb97a8f0b5d744e3435c, Oct 24, 2017
