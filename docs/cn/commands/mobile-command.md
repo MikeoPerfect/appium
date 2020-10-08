@@ -114,68 +114,70 @@ driver.ExecuteScript("mobile:scroll", new Dictionary<string, string> { { "direct
 | `mobile:getAppearance` | 获取设备的UI外观样式通过 `xcrun simctl ui`. 它会返回 `light`, `dark`, `unknown` or `unsupported` ( IOS 12以下). |||
 | `mobile:setAppearance           | 设置设备的UI外观样式 通过`xcrun simctl ui` 或者siri 指令     | `{style}` | `{style: 'dark'}` |
 | `mobile:getDeviceTime` | 获取被测设备的时间。 https://momentjs.com/docs/ 是受支持的日期时间格式说明符的完整列表。默认是ISO-8601的格式`YYYY-MM-DDTHH:mm:ssZ` | `{format}` |  `{format: 'YYYY-MM'}` |
-| `mobile:startAudioRecording` | Start recording audio stream. Read [Audio Capture From iOS Simulators and Real Devices](/docs/en/writing-running-appium/ios/audio-capture.md) for more details | | |
-| `mobile:stopAudioRecording` | Stop and store the recording audio stream. Read [Audio Capture From iOS Simulators and Real Devices](/docs/en/writing-running-appium/ios/audio-capture.md) for more details | | |
+| `mobile:startAudioRecording` | 开始录制音频流。阅读 [Audio Capture From iOS Simulators and Real Devices](/docs/en/writing-running-appium/ios/audio-capture.md) 以获得更多细节 | | |
+| `mobile:stopAudioRecording` | 停止并存储录制的音频流。 阅读[Audio Capture From iOS Simulators and Real Devices](/docs/en/writing-running-appium/ios/audio-capture.md) 以获得更多细节 | | |
 
 ### Android
-| Command | Description | Argument | Argument Example |
+
+| 指令 | 描述 | 参数 | 参数示例 |
 | ------- | ----------- | -------- | ---------------- |
-| mobile:shell | Execute [ADB shell](https://developer.android.com/studio/command-line/adb#shellcommands) commands (requires [insecure feature](/docs/en/writing-running-appium/security.md) `adb_shell` to be enabled) | Read [this page](/docs/en/writing-running-appium/android/android-shell.md) | `{'command': 'echo', 'args': ['arg1', 'arg2']}` |
-| mobile:startLogsBroadcast |  Starts Android logcat broadcast websocket on the same host and port where Appium is running at `/ws/session/:sessionId:/appium/device/logcat` endpoint | <none> | <none> |
-| mobile:stopLogsBroadcast |  Stops the logcat broadcasting websocket server started by `mobile:startLogsBroadcast` | <none> | <none> |
-| mobile:performEditorAction | Performs the given editor action on the focused input field. The following action names are supported: `normal, unspecified, none, go, search, send, next, done, previous`.   | `{action}` | `{action: "previous"}`|
-| mobile:getPermissions | Gets a list of permissions which are `denied`, `granted` or `requested`. | `{type, appPackage}` | `{type: "granted", appPackage: "io.appium.android.apis"}`|
-| mobile:changePermissions | Grants or revokes permissions. | `{action, appPackage, permissions}` |  `{action: "grant", appPackage: "io.appium.android.apis", permissions: "android.permission.READ_CONTACTS"}`, `{action: "revoke", appPackage: "io.appium.android.apis", permissions: ["android.permission.READ_CONTACTS", "android.permission.CAMERA"]}` |
-| mobile:getNotifications | Get the list of items as JSON format in the status bar notifications. Please turn 'Notification access' on via _Settings > App & notifications > Special app access_ (the actual path depends on the device model). Please read [Appium Pro](https://appiumpro.com/editions/106-retrieving-status-bar-notifications-for-android-devices) for more details. | <none> | <none> |
-| mobile: listSms | Get the list of SMS messages as [JSON format](https://github.com/appium/io.appium.settings#sms). |  <none> | <none> |
-| mobile:type | Send Unicode text to a focused element. | `{text}` |  `{text: "happy testing"}` |
-| mobile:getDeviceTime | Get time of the device under test. https://momentjs.com/docs/ is the full list of supported datetime format. Defaults to `YYYY-MM-DDTHH:mm:ssZ` which is  ISO-8601. | `{format}` |  `{format: 'YYYY-MM'}` |
-| mobile:deleteFile | Delete a file on the device under test. The remote path value should be the full path or a file inside an application bundle.  | `{remotePath}` | `{remotePath: '@io.appium.example/path/in/bundle'}`, `{remotePath: '/tmp/data/file'}` |
-| mobile:startService | Starts the given service by calling `am start-service` or `am start-foreground-service` under the hood since Appium 1.18.0. The `intent` argument is mandatory. `user` is the ID of the user the service should be started for (the current user ID is used by default). If `foreground` is set to `true` then the service will be started in foreground. | `{intent, user, foreground}` | `{intent: 'my.app/my.activity', foreground: true}` |
-| mobile:stopService | Stops the given service by calling `am stop-service` under the hood since Appium 1.18.0. The `intent` argument is mandatory. `user` is the ID of the user the service should be stopped for (the current user ID is used by default). | `{intent, user}` | `{intent: 'my.app/my.activity'}` |
+| `mobile:shell` | 执行 [ADB shell](https://developer.android.com/studio/command-line/adb#shellcommands) 命令(需要启动[insecure feature](/docs/en/writing-running-appium/security.md) `adb_shell` ) | 阅读 [this page](/docs/en/writing-running-appium/android/android-shell.md) | `{'command': 'echo', 'args': ['arg1', 'arg2']}` |
+| `mobile:startLogsBroadcast` | 启动IOS系统广播日志，输出地址`/ws/session/:sessionId:/appium/device/logcat` | <none> | <none> |
+| `mobile:stopLogsBroadcast` | 停止已启动的IOS系统广播日志 | <none> | <none> |
+| `mobile:performEditorAction` | 在焦点输入字段上执行给定的编辑器操作。支持以下操作名称：`normal, unspecified, none, go, search, send, next, done, previous`. | `{action}` | `{action: "previous"}`|
+| `mobile:getPermissions` | 获取权限列表： `denied`, `granted` or `requested`. | `{type, appPackage}` | `{type: "granted", appPackage: "io.appium.android.apis"}`|
+| `mobile:changePermissions` | 授予或撤消权限。 | `{action, appPackage, permissions}` |  `{action: "grant", appPackage: "io.appium.android.apis", permissions: "android.permission.READ_CONTACTS"}`, `{action: "revoke", appPackage: "io.appium.android.apis", permissions: ["android.permission.READ_CONTACTS", "android.permission.CAMERA"]}` |
+| `mobile:getNotifications` | 在状态栏通知中以JSON格式获取项目列表。 请通过“设置”>“应用和通知”>“特殊应用访问”打开“通知访问”（实际路径取决于设备型号）。请阅读[Appium Pro](https://appiumpro.com/editions/106-retrieving-status-bar-notifications-for-android-devices)以获得更多详细信息。 | <none> | <none> |
+| `mobile: listSms` | 以[JSON format](https://github.com/appium/io.appium.settings#sms)获取SMS消息列表. |  <none> | <none> |
+| `mobile:type` | 将Unicode文本发送到焦点元素。 | `{text}` |  `{text: "happy testing"}` |
+| `mobile:getDeviceTime` | 获取被测设备的时间。 https://momentjs.com/docs/ 是受支持的日期时间格式说明符的完整列表。默认是ISO-8601的格式`YYYY-MM-DDTHH:mm:ssZ` | `{format}` |  `{format: 'YYYY-MM'}` |
+| `mobile:deleteFile` | 删除被测设备上的文件。远程路径值应为完整路径或应用程序ID的文件。 | `{remotePath}` | `{remotePath: '@io.appium.example/path/in/bundle'}`, `{remotePath: '/tmp/data/file'}` |
+| `mobile:startService` | 从Appium 1.18.0开始，通过调用am start-service或am start-foreground-service启动给定服务。 intent参数是强制性的。 user是应该为其启动服务的用户的ID（默认情况下使用当前用户ID）。如果前台设置为true，则该服务将在前台启动。 | `{intent, user, foreground}` | `{intent: 'my.app/my.activity', foreground: true}` |
+| `mobile:stopService` | 从Appium 1.18.0开始，通过在后台调用am stop-service停止给定服务。 intent参数是强制性的。 user是应该停止服务的用户的ID（默认情况下使用当前用户ID）。 | `{intent, user}` | `{intent: 'my.app/my.activity'}` |
 
 ### Android (UiAutomator2 only)
-| Command | Description | Argument | Argument Example |
+| 命令 | 描述 | 参数 | 参数示例 |
 | ------- | ----------- | -------- | ---------------- |
-| mobile:batteryInfo | Reads the battery information from the device under test | <none> | <none> |
-| mobile:acceptAlert | Accepts an on-screen alert | Optional button label to click on | <none> |
-| mobile:dismissAlert | Dismisses an on-screen alert | Optional button label to click on | <none> |
-| mobile:scrollBackTo | Scroll from one element to another | `{elementId, elementToId}` | `{elementId: 2, elementToId: 1}` |
-| mobile:scroll | Scroll the given scrollable element until the element identifier by `strategy` and `selector` becomes visible since Appium 1.18.0. An optional `maxSwipes` property can limit the number of scroll actions. It accepts an optional `element` property which should be the element identifier and scrollable. Without this property, Appium will select the first currently available scrollable container. Please read `mobileScroll` section in [appium-uiautomator2-driver](https://github.com/appium/appium-uiautomator2-driver/blob/master/lib/commands/general.js) for more details. | `{element, strategy, selector, maxSwipes}` | `{strategy: 'accessibility id', selector: 'target content description'}` |
-| mobile:viewportScreenshot | Like [screenshot](/commands/session/screenshot/) but only includes contents of viewport | <none> | <none> |
-| mobile:viewportRect | Returns the coordinates and size of the viewports since Appium 1.18.0. The return type is Rectangle defined in [general.js](https://github.com/appium/appium-uiautomator2-driver/blob/master/lib/commands/general.js).| <none> | <none> |
-| mobile:deepLink | Opens a deep-link URL for testing [Instant Apps](https://support.google.com/googleplay/answer/7240211?hl=en) | `{url, package}` | `{url: "https://www.site.com/", package: "com.site.SomeAndroidPackage"}` |
-| mobile:deviceInfo | Gets device information like manufacturer, model, timezone and locale. Read [GetDeviceInfo](https://github.com/appium/appium-uiautomator2-server/blob/master/app/src/main/java/io/appium/uiautomator2/handler/GetDeviceInfo.java) for more details. | <none> | <none> |
-| mobile:type | Types the given Unicode string into focused field. The combination of `unicodeKeyboard` capability and the [send keys](https://appium.io/docs/en/commands/element/actions/send-keys/) works as _replacing_ the text field content. The send key in W3C action works only for ASCII. This command helps such cases to append unicode text content against the focused field. | `{text}` | `{text: 'happy testing'}` |
+| `mobile:batteryInfo` | 从被测设备读取电池信息 | <none> | <none> |
+| `mobile:acceptAlert` | 接受屏幕弹窗 | 单击的可选按钮标签 | <none> |
+| `mobile:dismissAlert` | 取消屏幕上的警报 | Optional button label to click on | <none> |
+| `mobile:scrollBackTo` | 从一个元素滚动到另一个 | `{elementId, elementToId}` | `{elementId: 2, elementToId: 1}` |
+| `mobile:scroll` | 从Appium 1.18.0开始，滚动给定的可滚动元素，直到可以看到按策略和选择器指定的元素标识符为止。可选的max Swipes属性可以限制滚动动作的数量。它接受一个可选的元素属性，该属性应该是元素标识符并且可以滚动。如果没有此属性，Appium将选择第一个当前可用的可滚动容器。请阅读[appium-uiautomator2-driver](https://github.com/appium/appium-uiautomator2-driver/blob/master/lib/commands/general.js)中的“移动滚动”部分以了解更多详细信息 | `{element, strategy, selector, maxSwipes}` | `{strategy: 'accessibility id', selector: 'target content description'}` |
+| `mobile:viewportScreenshot` | 类似于[屏幕截图]((/docs/en/commands/session/screenshot.md))，但仅包含当前视图窗口的内容 | <none> | <none> |
+| `mobile:viewportRect` | 返回自Appium 1.18.0开始的视口的坐标和大小。返回类型是[general.js](https://github.com/appium/appium-uiautomator2-driver/blob/master/lib/commands/general.js)中定义的Rectangle。 | <none> | <none> |
+| `mobile:deepLink` | 打开深层链接URL 测试效果：[Instant Apps](https://support.google.com/googleplay/answer/7240211?hl=en) | `{url, package}` | `{url: "https://www.site.com/", package: "com.site.SomeAndroidPackage"}` |
+| `mobile:deviceInfo` | 获取设备信息，例如制造商，型号，时区和区域设置。阅读获取[GetDeviceInfo](https://github.com/appium/appium-uiautomator2-server/blob/master/app/src/main/java/io/appium/uiautomator2/handler/GetDeviceInfo.java)以获取更多详细信息。 | <none> | <none> |
+| `mobile:type` | 将给定的Unicode字符串键入焦点字段。 Unicode键盘功能和发送键的组合可替代文本字段内容。 W3C操作中的[send keys](https://appium.io/docs/en/commands/element/actions/send-keys/)仅适用于ASCII。此命令可帮助此类情况将unicode文本内容附加到焦点字段中。 | `{text}` | `{text: 'happy testing'}` |
 
 ### Android (Espresso only)
-| Command | Description | Argument | Argument Example |
+
+| 指令 | 描述 | 参数 | 参数示例 |
 | ------- | ----------- | -------- | ---------------- |
-| mobile:swipe | Perform the ["swipe" view action](https://developer.android.com/reference/android/support/test/espresso/action/ViewActions.html#swipeDown()) | `{element, direction}` | `{element: 2, direction: "down|up|left|right"}` |
-| mobile:swipe | Perform ["GeneralSwipeAction"](https://developer.android.com/reference/androidx/test/espresso/action/GeneralSwipeAction) | `{element, swiper, startCoordinates, endCoordinates, precisionDescriber}` | `{element: 3, swiper: "FAST|SLOW", startCoordinates: 'BOTTOM_RIGHT', endCoordinates: 'TOP_RIGHT', precisionDescriber: 'FINGER'}` |
-| mobile:clickAction | Perform ["ClickAction"](https://developer.android.com/reference/androidx/test/espresso/action/GeneralClickAction) | `{element, tapper, coordinatesProvider, precisionDescriber, inputDevice, buttonState}` | `{element: 2, tapper: 'Long', coordinatesProvider: 'BOTTOM_RIGHT', precisionDescriber: 'Thumb', inputDevice: 0, buttonState: 0}` |
-| mobile:isToastVisible | Check whether a toast message is visible. `text` is the mandatory argument. `isRegexp` is optional. `text` will be parsed as a regular expression pattern if `isRegexp` is `true`. `isRegexp` is `false` by default. It returns `true` if the `text` exists, or `false` otherwise. | `{text, isRegexp}` | `{ text: 'A toast' }`, `{ text: '^regex$', isRegexp: true } `|
-| mobile:openDrawer | Open drawer by [DrawerAction](https://developer.android.com/reference/android/support/test/espresso/contrib/DrawerActions) with [gravity](https://developer.android.com/reference/android/view/Gravity). `gravity` is option. The default is [GravityCompat.START](https://developer.android.com/reference/android/support/v4/view/GravityCompat.html#START). This method blocks until the drawer is fully open. No operation if the drawer is already open. | `{element, gravity}` | `{ element: element_id }`, `{ element: element_id, gravity: 3 }` |
-| mobile:closeDrawer | Close drawer by [DrawerAction](https://developer.android.com/reference/android/support/test/espresso/contrib/DrawerActions) with [gravity](https://developer.android.com/reference/android/view/Gravity). `gravity` is option. The default is [GravityCompat.START](https://developer.android.com/reference/android/support/v4/view/GravityCompat.html#START). This method blocks until the drawer is fully closed. No operation if the drawer is already closed. | `{element, gravity}` | `{ element: element_id }`, `{ element: elementId, gravity: 3 }` |
-| mobile:setDate | Set date by [PickerActions#setDate](https://developer.android.com/reference/android/support/test/espresso/contrib/PickerActions.html#setDate(int,%20int,%20int)) for [DataPicker](https://developer.android.com/reference/android/widget/DatePicker). | `{element, year, monthOfYear, dayOfMonth}` | `{element: elementId, year: 2018, monthOfYear: 12, dayOfMonth: 1}` |
-| mobile:setTime | Set time by [PickerActions#setTime](https://developer.android.com/reference/android/support/test/espresso/contrib/PickerActions.html#setTime(int,%20int)) for [TimePicker](https://developer.android.com/reference/android/widget/TimePicker). | `{element, hours, minutes}` | `{element: elementId, hours: 12, minutes: 10}` |
-| mobile:navigateTo | Action to [NavigationView](https://developer.android.com/reference/android/support/design/widget/NavigationView) by [NavigationViewActions#navigateTo](https://developer.android.com/reference/android/support/test/espresso/contrib/NavigationViewActions.html#navigateTo(int)). The view must be a child of a DrawerLayout, of type NavigationView, visible on screen and displayed on screen. | `{element, menuItemId}` | `{element: elementId, menuItemId: 1}` |
-| mobile:scrollToPage | Action to [ViewPager](https://developer.android.com/reference/android/support/v4/view/ViewPager) by [ViewPagerActions](https://developer.android.com/reference/android/support/test/espresso/contrib/ViewPagerActions). `scrollTo` must be one of `first`, `last`, `left`, `right`. `scrollTo` is used by default if `scrollTo` and `scrollToPage` are provided. | `{scrollTo, scrollToPage, smoothScroll}` | `{element: elementId, scrollTo: 'left', smoothScroll: true}`, `{element: elementId, scrollToPage: 2}`|
-| mobile:backdoor | Invoke arbitrary methods defined in Android app. The methods must be `public` in Java and must be `open` in Kotlin. `target` is `activity`, `application` or `element`. `methods` are methods you would like to invoke. `element` is mandatory if `target` is `element`. Read docstring of _mobileBackdoor_ method [here](https://github.com/appium/appium-espresso-driver/blob/master/lib/commands/general.js) for more details | `{target, methods, element}` | `{target: 'activity', methods: [{name: 'method1'}, {name: 'method2', args: [{value: 'hello appium', type: 'java.lang.String'}] }] }`, `{target: 'element', element: elementId, [{name: 'getTypeface'}, {name: 'isItalic'}]}` |
-| mobile:flashElement | Flashes an element on the screen to visually confirm you are operating on the correct element. Can optionally set `durationMillis` (in ms) and `repeatCount` of animation| `{element, durationMillis, repeatCount}` | `{element: "1234-abcd-5678", durationMillis: 1000, repeatCount: 10}` |
-| mobile:uiautomator | Drive areas which are not part of App Under Test, using uiautomator2 APIs. `strategy` can be one of: "clazz", "res", "text", "textContains", "textEndsWith", "textStartsWith","desc", "descContains", "descEndsWith", "descStartsWith" and "pkg", taken from uiautomator [By class](https://developer.android.com/reference/androidx/test/uiautomator/By). `action` can be one of: "click", "longClick", "getText", "getContentDescription", "getClassName","getResourceName", "getVisibleBounds", "getVisibleCenter", "getApplicationPackage","getChildCount", "clear", "isCheckable", "isChecked", "isClickable", "isEnabled","isFocusable", "isFocused", "isLongClickable", "isScrollable" and "isSelected", taken from uiautomator [UiObject2](https://developer.android.com/reference/androidx/test/uiautomator/UiObject2). `index` is optional, if not given, will return all matching results  | `{strategy, locator, index, action}` | `{strategy: 'clazz', locator: 'android.widget.TextView', index: 2, action: "getText"}` |
-| mobile:webAtoms | Runs a chain of [webatoms](https://developer.android.com/training/testing/espresso/web). `withElement` and `perform` are basic chain items. Please refer [issue](https://github.com/appium/appium-espresso-driver/pull/380) and [Sample test code](https://github.com/appium/ruby_lib_core/blob/c9062c4b744263d790c7de17263cbd4645cdefc6/test/functional/android/android/mobile_commands_test.rb#L196-L239) as references. | `{webviewElement, forceJavascriptEnabled, methodChain}` | (webdriverio) `{ webviewElement: webviewEl.value, forceJavascriptEnabled: true, methodChain: [...]}`  |
-| mobile:dismissAutofill | Disable autofill dialog in Android O+ | `{element}` | `{element: elementId}` |
-| mobile:deviceInfo | Gets device information like manufacturer, model, timezone and locale. Read [GetDeviceInfo](https://github.com/appium/appium-espresso-driver/blob/master/espresso-server/app/src/androidTest/java/io/appium/espressoserver/lib/handlers/GetDeviceInfo.kt) for more details. | <none> | <none> |
+| `mobile:swipe` | 执行 ["swipe" view action](https://developer.android.com/reference/android/support/test/espresso/action/ViewActions.html#swipeDown()) | `{element, direction}` | `{element: 2, direction: "down|up|left|right"}` |
+| `mobile:swipe` | 执行["GeneralSwipeAction"](https://developer.android.com/reference/androidx/test/espresso/action/GeneralSwipeAction) | `{element, swiper, startCoordinates, endCoordinates, precisionDescriber}` | `{element: 3, swiper: "FAST|SLOW", startCoordinates: 'BOTTOM_RIGHT', endCoordinates: 'TOP_RIGHT', precisionDescriber: 'FINGER'}` |
+| `mobile:clickAction` | 执行["ClickAction"](https://developer.android.com/reference/androidx/test/espresso/action/GeneralClickAction) | `{element, tapper, coordinatesProvider, precisionDescriber, inputDevice, buttonState}` | `{element: 2, tapper: 'Long', coordinatesProvider: 'BOTTOM_RIGHT', precisionDescriber: 'Thumb', inputDevice: 0, buttonState: 0}` |
+| `mobile:isToastVisible` | 检查是否有toast. 文本是必选参数。 Regexp是可选的。如果Regexp为true，则将文本解析为正则表达式模式。 is Regexp默认为false。如果文本存在，则返回true，否则返回false。 | `{text, isRegexp}` | `{ text: 'A toast' }`, `{ text: '^regex$', isRegexp: true } `|
+| `mobile:openDrawer` | 在[gravity](https://developer.android.com/reference/android/view/Gravity)作用下通过[DrawerAction](https://developer.android.com/reference/android/support/test/espresso/contrib/DrawerActions)打开抽屉`gravity` is 可选的. 默认值为[GravityCompat.START](https://developer.android.com/reference/android/support/v4/view/GravityCompat.html#START). 此方法将阻塞直到抽屉完全关闭。如果抽屉已经关闭，则无法进行任何操作。 | `{element, gravity}` | `{ element: element_id }`, `{ element: element_id, gravity: 3 }` |
+| `mobile:closeDrawer` | Close drawer by [DrawerAction](https://developer.android.com/reference/android/support/test/espresso/contrib/DrawerActions) with [gravity](https://developer.android.com/reference/android/view/Gravity). `gravity` is option. The default is [GravityCompat.START](https://developer.android.com/reference/android/support/v4/view/GravityCompat.html#START). This method blocks until the drawer is fully closed. No operation if the drawer is already closed. | `{element, gravity}` | `{ element: element_id }`, `{ element: elementId, gravity: 3 }` |
+| `mobile:setDate` | 通过[PickerActions#setDate](https://developer.android.com/reference/android/support/test/espresso/contrib/PickerActions.html#setDate(int,%20int,%20int))＃[DataPicker](https://developer.android.com/reference/android/widget/DatePicker)设置日期。 | `{element, year, monthOfYear, dayOfMonth}` | `{element: elementId, year: 2018, monthOfYear: 12, dayOfMonth: 1}` |
+| `mobile:setTime` | 通过 [PickerActions#setTime](https://developer.android.com/reference/android/support/test/espresso/contrib/PickerActions.html#setTime(int,%20int)) #[TimePicker](https://developer.android.com/reference/android/widget/TimePicker)设置时间。 | `{element, hours, minutes}` | `{element: elementId, hours: 12, minutes: 10}` |
+| `mobile:navigateTo` | 通过“[NavigationViewActions#navigateTo](https://developer.android.com/reference/android/support/test/espresso/contrib/NavigationViewActions.html#navigateTo(int))”导航到“[NavigationView](https://developer.android.com/reference/android/support/design/widget/NavigationView)”的操作。该视图必须是“导航视图”类型，在屏幕上可见并在屏幕上显示的“抽屉布局”的子级。 | `{element, menuItemId}` | `{element: elementId, menuItemId: 1}` |
+| `mobile:scrollToPage` | 通过[ViewPagerActions](https://developer.android.com/reference/android/support/test/espresso/contrib/ViewPagerActions)导航到[ViewPager](https://developer.android.com/reference/android/support/v4/view/ViewPager)。 `scrollTo` 必须是其中的一种 `first`, `last`, `left`, `right`.  如果提供了 `scrollTo` 和`scrollToPage` ，则 scrollTo是默认的 | `{scrollTo, scrollToPage, smoothScroll}` | `{element: elementId, scrollTo: 'left', smoothScroll: true}`, `{element: elementId, scrollToPage: 2}`|
+| `mobile:backdoor` | 调用Android应用中定义的任意方法。这些方法必须在Java中是公共的，并且必须在Kotlin中是开放的。 您要调用的方法`target` 是 `activity`, `application` 或者 `element`. `methods` `element` 是必须的如果`target` 是 `element`.在[here](https://github.com/appium/appium-espresso-driver/blob/master/lib/commands/general.js)阅读移动后门方法的文档字符串以获取更多详细信息 | `{target, methods, element}` | `{target: 'activity', methods: [{name: 'method1'}, {name: 'method2', args: [{value: 'hello appium', type: 'java.lang.String'}] }] }`, `{target: 'element', element: elementId, [{name: 'getTypeface'}, {name: 'isItalic'}]}` |
+| `mobile:flashElement` | 在屏幕上闪烁一个元素，以可视方式确认您正在使用正确的元素。可以选择设置持续时间Millis（以毫秒为单位）并重复动画计数 | `{element, durationMillis, repeatCount}` | `{element: "1234-abcd-5678", durationMillis: 1000, repeatCount: 10}` |
+| `mobile:uiautomator` | 使用uiautomator2 API驱动不属于“待测应用”的区域。策略可以是以下之一: "clazz", "res", "text", "textContains", "textEndsWith", "textStartsWith","desc", "descContains", "descEndsWith", "descStartsWith" and "pkg", taken from uiautomator [By class](https://developer.android.com/reference/androidx/test/uiautomator/By). `action` 可以是以下之一： "click", "longClick", "getText", "getContentDescription", "getClassName","getResourceName", "getVisibleBounds", "getVisibleCenter", "getApplicationPackage","getChildCount", "clear", "isCheckable", "isChecked", "isClickable", "isEnabled","isFocusable", "isFocused", "isLongClickable", "isScrollable" and "isSelected", taken from uiautomator [UiObject2](https://developer.android.com/reference/androidx/test/uiautomator/UiObject2). `index`是可选的，如果未给出，将返回所有匹配结果 | `{strategy, locator, index, action}` | `{strategy: 'clazz', locator: 'android.widget.TextView', index: 2, action: "getText"}` |
+| `mobile:webAtoms` | 运行一连串的[webatoms](https://developer.android.com/training/testing/espresso/web)与Element和perform是基本的链项目。请参考[issue](https://github.com/appium/appium-espresso-driver/pull/380)和[Sample test code](https://github.com/appium/ruby_lib_core/blob/c9062c4b744263d790c7de17263cbd4645cdefc6/test/functional/android/android/mobile_commands_test.rb#L196-L239)作为参考。 | `{webviewElement, forceJavascriptEnabled, methodChain}` | (webdriverio) `{ webviewElement: webviewEl.value, forceJavascriptEnabled: true, methodChain: [...]}`  |
+| `mobile:dismissAutofill` | 在Android O +中禁用自动填充对话框 | `{element}` | `{element: elementId}` |
+| `mobile:deviceInfo` | 获取设备信息，例如制造商，型号，时区和区域设置。 阅读[GetDeviceInfo](https://github.com/appium/appium-espresso-driver/blob/master/espresso-server/app/src/androidTest/java/io/appium/espressoserver/lib/handlers/GetDeviceInfo.kt) 获取更多细节。 | <none> | <none> |
 
 
 [//]: # "DO NOT EDIT THIS FILE! This is an auto-generated file. Editing for this document happens in /commands-yml/commands/mobile-command.yml"
-## Support
+## 支持
 
 [//]: # "DO NOT EDIT THIS FILE! This is an auto-generated file. Editing for this document happens in /commands-yml/commands/mobile-command.yml"
 ### Appium Server
 
-|Platform|Driver|Platform Versions|Appium Version|Driver Version|
+|平台|Driver|Platform Versions|Appium Version|Driver Version|
 |--------|----------------|------|--------------|--------------|
 | iOS | [XCUITest](/docs/en/drivers/ios-xcuitest.md) | 9.3+ | 1.6.0+ | All |
 |  | [UIAutomation](/docs/en/drivers/ios-uiautomation.md) | 8.0 to 9.3 | All | All |
@@ -189,7 +191,7 @@ driver.ExecuteScript("mobile:scroll", new Dictionary<string, string> { { "direct
 [//]: # "DO NOT EDIT THIS FILE! This is an auto-generated file. Editing for this document happens in /commands-yml/commands/mobile-command.yml"
 ### Appium Clients
 
-|Language|Support|Documentation|
+|语言|支持|文档|
 |--------|-------|-------------|
 |[Java](https://github.com/appium/java-client/releases/latest)| All | [seleniumhq.github.io](https://seleniumhq.github.io/selenium/docs/api/java/org/openqa/selenium/remote/RemoteWebDriver.html#executeScript-java.lang.String-java.lang.Object...-) |
 |[Python](https://github.com/appium/python-client/releases/latest)| All | [selenium-python.readthedocs.io](http://selenium-python.readthedocs.io/api.html#selenium.webdriver.remote.webdriver.WebDriver.execute_script) |
@@ -200,7 +202,7 @@ driver.ExecuteScript("mobile:scroll", new Dictionary<string, string> { { "direct
 |[C#](https://github.com/appium/appium-dotnet-driver/releases/latest)| All | [github.com](https://github.com/appium/appium-dotnet-driver/) |
 
 [//]: # "DO NOT EDIT THIS FILE! This is an auto-generated file. Editing for this document happens in /commands-yml/commands/mobile-command.yml"
-## HTTP API Specifications
+## HTTP API 技术
 
 [//]: # "DO NOT EDIT THIS FILE! This is an auto-generated file. Editing for this document happens in /commands-yml/commands/mobile-command.yml"
 ### Endpoint
@@ -208,27 +210,28 @@ driver.ExecuteScript("mobile:scroll", new Dictionary<string, string> { { "direct
 `POST /session/:session_id/execute`
 
 [//]: # "DO NOT EDIT THIS FILE! This is an auto-generated file. Editing for this document happens in /commands-yml/commands/mobile-command.yml"
-### URL Parameters
+### URL 参数
 
-|name|description|
+|名称|描述|
 |----|-----------|
 |session_id|ID of the session to route the command to|
 
 [//]: # "DO NOT EDIT THIS FILE! This is an auto-generated file. Editing for this document happens in /commands-yml/commands/mobile-command.yml"
-### JSON Parameters
+### JSON 参数
 
-|name|type|description|
+|名称|类型|描述|
 |----|----|-----------|
 | script | `string` | The mobile command to execute |
 | args | `array` | The JSON serializable arguments |
 
 [//]: # "DO NOT EDIT THIS FILE! This is an auto-generated file. Editing for this document happens in /commands-yml/commands/mobile-command.yml"
-### Response
+### 返回值
 
-The command result (`any`)
+指令结果 (`any`)
 
 [//]: # "DO NOT EDIT THIS FILE! This is an auto-generated file. Editing for this document happens in /commands-yml/commands/mobile-command.yml"
-## See Also
+
+## 参考
 
 * [W3C Specification](https://www.w3.org/TR/webdriver/#dfn-execute-script)
 * [JSONWP Specification](https://github.com/SeleniumHQ/selenium/wiki/JsonWireProtocol#sessionsessionidexecute)
