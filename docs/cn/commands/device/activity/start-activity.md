@@ -1,6 +1,6 @@
 # 启动Activity
 
-通过提供package名和Activity名来启动一个Android Activity
+通过提供包名和Activity名来启动一个Android Activity
 ## 使用样例
 
 ```java

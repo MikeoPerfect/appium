@@ -4,17 +4,17 @@
 
 ## appium
 - 运行时的基本检查
-  - 节点版本（>= 4）
+  - 节点版本（>= 5）
   - CLI 参数检查
     - 包含所有可用和支持的CLI参数
     - 检是否有冲突和弃用
 - 统一存放日志
-  - 统一存放npmlog, winston和appium-logger
+  - 统一存放npmlog, winston和自定义log
 - 启动AppiumDriver（继承Basedriver）
-  - 为iOS/Android/Selendroid/Fake Driver 建立会话
+  - 为iOS/Android/Fake Driver 建立会话
   - 创建/删除Appium会话
 - 启动baseServer (appium-express)
-  - 通过驱动给出的路径
+  - 通过driver给出的路径
 
 ## appium-express (部分appium basedriver)
 - 启动express server（允许x-domain-origin）
@@ -85,7 +85,7 @@
 - 内置自动重试
 
 ## appium-uiauto
-- 封装 iOS UI Automation 框架的
+- 封装 iOS UI Automation 框架
 - 通过socket连接进行通信
 - 运行由sendCommand函数填充的命令队列
 - 处理来自ui-automation的响应（作为缓冲区）
@@ -106,9 +106,9 @@
   - 还包含较旧版本的iwd instrument（v4 - v7）
 
 ## appium-ios日志
-- 捕获iOS模拟器或实际设备的控制台，性能和崩溃日志
+- 捕获iOS模拟器或真机的控制台，性能和崩溃日志
 - 通过调用tail来从系统路径获取日志（模拟器设备）
-- 或通过调用deviceconsole（实际设备）
+- 或通过调用deviceconsole（真机）
 - 使用远程调试器来抓取性能日志
 - 崩溃日志保留在系统上的“.crash”文件中
 
@@ -138,29 +138,29 @@
 - 封装 chromedriver
 - 下载并安装chromedriver二进制文件
 - 启动，重新启动并停止（或杀死所有）chrome实例
-- 使用appium-jsonwp-proxy向驱动程序发送json wire protocol命令
+- 使用appium-jsonwp-proxy向driver发送json wire protocol命令
 
-## jsonwp-proxy (部分appium basedriver)
+## jsonwp-proxy (部分appium-base-driver)
 - 允许将json wire协议命令发送到了解它的服务器（浏览器驱动程序）
 - 解析json的响应
 - 允许代理服务器的请求
-- 用于在Chromium-Chromedriver和appium-selendroiddriver中进行通信
+- 用户在 appium-chromedriver 里通信
 
-## appium-androiddriver
-- 类似于appium-iosdriver，它可以作为独立服务运行
-- 自动化模拟器和实际设备上的本地，混合和移动Web应用程序
+## appium-android-driver
+- 类似于appium-ios-driver，它可以作为独立服务运行
+- 自动化模拟器和真机上的原生，混合和移动Web应用程序
 - 负责安装Android软件包到设备
 - 如果需要，运行chromedriver会话
 - 包含一组更具体的功能约束
 - 使用appium-adb与emulator/simulator/realdevice进行交互
 - 和appium-android-bootstrap来执行实际的命令
-- 包含帮忙找出哪个网页视图属于哪个应用程序包，反之亦然
+- 包含helpers找出哪个网页视图属于哪个应用程序包，反之亦然
 
 
 ## appium-adb
 - 封装 Android Debug Bridge（adb）
 - 包含一些基本的rpc到adb二进制的命令
-- 容纳jar文件来运行特殊用例，例如签名，验证应用程序或移动清单
+- 容纳jar文件来运行特殊用例，例如签名，验证应用程序或移动manifests
 - 允许与webdriver协议无关的特殊（移动专用）模拟器命令
   - 锁定屏幕
   - 按返回按钮
@@ -170,9 +170,9 @@
 - 捕获logcat
 - 处理模拟器/模拟器动作（例如重启）
 
-## appium-androidbootstrap
+## appium-android-bootstrap
 - JavaScript界面​​和Java代码，用于与Android UI Automator进行交互
-- 构建包含执行命令的逻辑的AppiumBootstrap.jar
+- 构建包含逻辑执行命令的AppiumBootstrap.jar
 - 对应的 iOS 上的 appium-uiauto
 - 一旦启动，就会创建一个到设备的web scoket连接
   - 应用程序提供启动/关闭/发送命令接口
@@ -181,30 +181,14 @@
 
 
 ## appium-uiautomator
-- 启动和关闭uiautomator服务器由appium-android-bootstrap jar建立
-- 命令流程就像
+- 启动和关闭uiautomator服务器，uiautomator由appium-android-bootstrap jar 构建
+- 命令流程如下：
   - appium-android-bootstrap:start -> appium-uiautomator:start -> appium-adb:install bootstrap
-
-## appium-selendroiddriver
-- 类似于appium-androiddriver，它可以作为独立服务运行
-- 使用appium-selendroid-installer下载并安装Selendroid
-- 包含几个Selendroid特定的逻辑，以确保无缝集成
-- 包含一组更具体的功能约束
-- 使用jsonwp-proxy与服务器交互
-- 使用appium-adb启用在Selendroid中未实现的命令
-
-## appium-selendroid 安装程序
-- 包含并导出设置逻辑
-  - 下载Selendroid
-  - 确定AndroidManifest的位置
-  - 确定Server APK的位置
-  - 提取这两个文件
-  - 复制和清理文件
 
 ## appium-android-ime
 - 允许从 Android 设备发送和接收 unicode 字符
 - 将文本编码为UTF-7将其发送到设备并将其重新编码为 Unicode
-- 由 appium-androiddriver 和 appium-selendroiddriver 使用
+- 由 appium-android-driver 使用
 
 ## appium-doctor
 - 在启动Appium之前诊断，报告和修复常见的Node，iOS和Android配置问题
@@ -217,18 +201,18 @@
     - 安装了xcode（使用命令行工具）
     - 开发工具安全检查
     - auth检查
-    - nodejs 检查
+    - node 二进制校验
 
 ## appium-gulp-plugins
 - 具有定制插件的开发包使用交叉应用模块（仅适用于Appium开发）
 - 包含任务
   - e2e和单元测试（覆盖率报告）
   - 将ES2016 转换成 ES5
-  - 静态代码分析（jshint）
+  - 静态代码分析（eslint）
   - 开发人员的任务
 
 ## appium-remote-debugger
-- RPC客户端将Appium连接到iOS网页浏览
+- RPC客户端将Appium连接到iOS webviews
 - 可以连接到WebKit devtools
 - 仅适用于iOS
 - 有两个rpc客户端类
@@ -244,13 +228,13 @@
 - 运行时，日志器默认为 npmlog，
 - 暴露了几乎所有的Appium软件包使用的getLogger函数
   - 如果有一个已经运行的记录器，那么所有的东西都会记录
-
+ 
 ## appium-support
 - 用于支持跨应用程序包的库的实用程序函数。
 - 为一些常见的操作提供封装，如
   - 系统方法（isWindows，isLinux ...）
   - 实用程序方法，如hasValue，escapeSpace
   - 一堆fs方法
-  - plist帮助解析和更新plist文件
+  - plist帮助类解析和更新plist文件
 
 本文由 [校长](https://testerhome.com/xushizhao) 翻译，由 [lihuazhang](https://github.com/lihuazhang) 校验。

@@ -92,7 +92,7 @@ string tagName = element.GetAttribute("content-desc");
 
 ### JSON 参数
 
-None
+无
 
 ### 响应
 如果未设置，属性的置为空 (`string`)
