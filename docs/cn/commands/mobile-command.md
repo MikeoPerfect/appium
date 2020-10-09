@@ -60,7 +60,7 @@ driver.ExecuteScript("mobile:scroll", new Dictionary<string, string> { { "direct
 
  `execute("mobile: <commandName>", <JSON serializable argument>)` 
 
-(有关语法的更多详细信息，请参见[执行脚本]((/docs/en/commands/web/execute.md))).
+(有关语法的更多详细信息，请参见[执行脚本]((/docs/cn/commands/web/execute.md))).
 
 可用指令列表如下：
 
@@ -68,7 +68,7 @@ driver.ExecuteScript("mobile:scroll", new Dictionary<string, string> { { "direct
 
 | 指令 | 描述 | 参数 | 参数示例 |
 | ------- | ----------- | -------- | ---------------- |
-| `mobile:viewportScreenshot` | 类似于[屏幕截图]((/docs/en/commands/session/screenshot.md))，但仅包含当前视图窗口的内容 | <none> | <none> |
+| `mobile:viewportScreenshot` | 类似于[屏幕截图]((/docs/cn/commands/session/screenshot.md))，但仅包含当前视图窗口的内容 | <none> | <none> |
 
 ### IOS （只适用于 XCUITest )
 
@@ -78,28 +78,28 @@ driver.ExecuteScript("mobile:scroll", new Dictionary<string, string> { { "direct
 | `mobile:stopPerfRecord` | 停止对被测设备进行性能分析 | <none> | |
 | `mobile:startLogsBroadcast` | 启动IOS系统广播日志，输出地址为`/ws/session/:sessionId:/appium/device/syslog` | <none> | |
 | `mobile:stopLogsBroadcast` | 停止已启动的IOS系统广播日志 | <none> | |
-| `mobile:swipe` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/en/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-swipe) | | |
-| `mobile:scroll` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/en/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-scroll) | | |
-| `mobile:pinch` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/en/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-pinch) | | |
-| `mobile:doubleTap` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/en/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-doubleTap) | | |
-| `mobile:touchAndHold` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/en/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-touchAndHold) | | |
-| `mobile:twoFingerTap` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/en/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-twoFingerTap) |  | |
-| `mobile:tapWithNumberOfTaps` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/en/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-tapWithNumberOfTaps) |  | |
-| `mobile:tap` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/en/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-tap) | | |
-| `mobile:dragFromToForDuration` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/en/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-dragFromToForDuration) | | |
-| `mobile:selectPickerWheelValue` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/en/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-selectPickerWheelValue) | | |
-| `mobile:alert` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/en/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-alert) | | |
-| `mobile:installApp` | 可以参考 [XCUITest Mobile App Managemenet](/docs/en/writing-running-appium/ios/ios-xctest-mobile-apps-management.md#mobile-installapp) | | |
-| `mobile:removeApp` | 可以参考 [XCUITest Mobile App Managemenet](/docs/en/writing-running-appium/ios/ios-xctest-mobile-apps-management.md#mobile-removeapp) | | |
-| `mobile:isAppInstalled` | 可以参考 [XCUITest Mobile App Managemenet](/docs/en/writing-running-appium/ios/ios-xctest-mobile-apps-management.md#mobile-isappinstalled) | | |
-| `mobile:launchApp` | 可以参考 [XCUITest Mobile App Managemenet](/docs/en/writing-running-appium/ios/ios-xctest-mobile-apps-management.md#mobile-launchapp) | | |
-| `mobile:terminateApp` | 可以参考 [XCUITest Mobile App Managemenet](/docs/en/writing-running-appium/ios/ios-xctest-mobile-apps-management.md#mobile-terminateapp) | | |
-| `mobile:activateApp` | 可以参考 [XCUITest Mobile App Managemenet](/docs/en/writing-running-appium/ios/ios-xctest-mobile-apps-management.md#mobile-activateapp) | | |
-| `mobile:queryAppState` | 可以参考 [XCUITest Mobile App Managemenet](/docs/en/writing-running-appium/ios/ios-xctest-mobile-apps-management.md#mobile-queryappstate) | | |
-| `mobile:setPasteboard` | 可以参考 [IOS Pasteboard Guide](/docs/en/writing-running-appium/ios/ios-xctest-pasteboard.md#mobile-setpasteboard) | | |
-| `mobile:getPasteboard` | 可以参考 [IOS Pasteboard Guide](/docs/en/writing-running-appium/ios/ios-xctest-pasteboard.md#mobile-getpasteboard) | | |
-| `mobile:installCertificate` | 可以参考 [IOS Pasteboard Guide](/docs/en/writing-running-appium/ios/ios-xctest-install-certificate.md) | | |
-| `mobile:getContexts` | 获取有效的contexts, 以及与每个Webview关联的url和标题（请参阅 [获取context](/docs/en/commands/context/get-contexts.md)）。从Appium 1.17.0版本开始，如果  提供了 `waitForWebviewMs` , Appium 将会支持有效的时间内的等待来获取Webviews。 | `{waitForWebviewMs}` | `{waitForWebviewMs: 5000}` |
+| `mobile:swipe` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/cn/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-swipe) | | |
+| `mobile:scroll` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/cn/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-scroll) | | |
+| `mobile:pinch` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/cn/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-pinch) | | |
+| `mobile:doubleTap` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/cn/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-doubleTap) | | |
+| `mobile:touchAndHold` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/cn/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-touchAndHold) | | |
+| `mobile:twoFingerTap` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/cn/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-twoFingerTap) |  | |
+| `mobile:tapWithNumberOfTaps` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/cn/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-tapWithNumberOfTaps) |  | |
+| `mobile:tap` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/cn/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-tap) | | |
+| `mobile:dragFromToForDuration` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/cn/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-dragFromToForDuration) | | |
+| `mobile:selectPickerWheelValue` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/cn/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-selectPickerWheelValue) | | |
+| `mobile:alert` | 可以参考 [Automating Mobile Gestures For iOS With WebDriverAgent/XCTest Backend](/docs/cn/writing-running-appium/ios/ios-xctest-mobile-gestures.md#mobile-alert) | | |
+| `mobile:installApp` | 可以参考 [XCUITest Mobile App Managemenet](/docs/cn/writing-running-appium/ios/ios-xctest-mobile-apps-management.md#mobile-installapp) | | |
+| `mobile:removeApp` | 可以参考 [XCUITest Mobile App Managemenet](/docs/cn/writing-running-appium/ios/ios-xctest-mobile-apps-management.md#mobile-removeapp) | | |
+| `mobile:isAppInstalled` | 可以参考 [XCUITest Mobile App Managemenet](/docs/cn/writing-running-appium/ios/ios-xctest-mobile-apps-management.md#mobile-isappinstalled) | | |
+| `mobile:launchApp` | 可以参考 [XCUITest Mobile App Managemenet](/docs/cn/writing-running-appium/ios/ios-xctest-mobile-apps-management.md#mobile-launchapp) | | |
+| `mobile:terminateApp` | 可以参考 [XCUITest Mobile App Managemenet](/docs/cn/writing-running-appium/ios/ios-xctest-mobile-apps-management.md#mobile-terminateapp) | | |
+| `mobile:activateApp` | 可以参考 [XCUITest Mobile App Managemenet](/docs/cn/writing-running-appium/ios/ios-xctest-mobile-apps-management.md#mobile-activateapp) | | |
+| `mobile:queryAppState` | 可以参考 [XCUITest Mobile App Managemenet](/docs/cn/writing-running-appium/ios/ios-xctest-mobile-apps-management.md#mobile-queryappstate) | | |
+| `mobile:setPasteboard` | 可以参考 [IOS Pasteboard Guide](/docs/cn/writing-running-appium/ios/ios-xctest-pasteboard.md#mobile-setpasteboard) | | |
+| `mobile:getPasteboard` | 可以参考 [IOS Pasteboard Guide](/docs/cn/writing-running-appium/ios/ios-xctest-pasteboard.md#mobile-getpasteboard) | | |
+| `mobile:installCertificate` | 可以参考 [IOS Pasteboard Guide](/docs/cn/writing-running-appium/ios/ios-xctest-install-certificate.md) | | |
+| `mobile:getContexts` | 获取有效的contexts, 以及与每个Webview关联的url和标题（请参阅 [获取context](/docs/cn/commands/context/get-contexts.md)）。从Appium 1.17.0版本开始，如果  提供了 `waitForWebviewMs` , Appium 将会支持有效的时间内的等待来获取Webviews。 | `{waitForWebviewMs}` | `{waitForWebviewMs: 5000}` |
 | `mobile:batteryInfo` | 从被测设备读取电池信息 | <none> | <none> |
 | `mobile:pressButton` | 按下物理按钮。可用的按钮选项包括：主页，提高音量和降低音量。真实设备支持所有三个按钮，而模拟器仅支持主屏幕。 | `{name}` | `{name: "home"}` |
 | `mobile:enrollBiometric` | 使用 [生物传感器](https://developer.apple.com/design/human-interface-guidelines/ios/user-interaction/authentication/#face-id-and-touch-id) 打开（或关闭）IOS模拟器 | `{isEnabled}` | `{isEnabled: true}` |
@@ -111,21 +111,21 @@ driver.ExecuteScript("mobile:scroll", new Dictionary<string, string> { { "direct
 | `mobile:activeAppInfo` | 获取当前活动应用程序的信息，例如bundleId和流程参数 | <none> | <none> |
 | `mobile:deviceInfo` | 获取设备信息，如语言环境和时区。时区默认为TZ数据库格式，例如America / New York，上一个为Apple名称，例如US / New York | <none> | <none> |
 | `mobile:rotateElement` | 将触摸两次的旋转手势发送到给定的元素。有关更多详细信息，请参见[rotate:withVelocity](https://developer.apple.com/documentation/xctest/xcuielement/1618665-rotate) | `{element, rotation, velocity}` | `{element: 2, rotation: π/2, velocity: 1.5}` |
-| `mobile:deleteFile` | 删除被测设备上的文件。远程路径值应符合 [Pushing/Pulling Files](/docs/en/writing-running-appium/ios/ios-xctest-file-movement.md) | `{remotePath}` | `{remotePath: 'path/to/file'}` |
-| `mobile:deleteFolder` | 删除被测设备上的文件夹。远程路径值应符合 [Pushing/Pulling Files](/docs/en/writing-running-appium/ios/ios-xctest-file-movement.md) | `{remotePath}` | `{remotePath: '@io.appium.example:documents/path/to/folder'}` |
+| `mobile:deleteFile` | 删除被测设备上的文件。远程路径值应符合 [Pushing/Pulling Files](/docs/cn/writing-running-appium/ios/ios-xctest-file-movement.md) | `{remotePath}` | `{remotePath: 'path/to/file'}` |
+| `mobile:deleteFolder` | 删除被测设备上的文件夹。远程路径值应符合 [Pushing/Pulling Files](/docs/cn/writing-running-appium/ios/ios-xctest-file-movement.md) | `{remotePath}` | `{remotePath: '@io.appium.example:documents/path/to/folder'}` |
 | `mobile:getPermission` | 获取模拟器上的应用程序权限状态。这个需要 https://github.com/wix/AppleSimulatorUtils |||
 | `mobile:setPermission` | 从Xcode 11.4开始，需要通过`xcrun simctl privacy` 设置权限。`key`是`xcrun simctl privacy` 列表中的服务，   `value` 是 `yes`(允许), `no`(撤销) or `unset`(重启).它适用于模拟器。 | `{bundleId, {key: value}}`| `{bundleId: 'io.appium.example', {'location-always': 'yes', calendar: 'no'}` |
 | `mobile:getAppearance` | 获取设备的UI外观样式通过 `xcrun simctl ui`. 它会返回 `light`, `dark`, `unknown` or `unsupported` ( IOS 12以下). |||
 | `mobile:setAppearance` |设置设备的UI外观样式 通过`xcrun simctl ui` 或者siri 指令|`{style}`|`{style: 'dark'}`|
 | `mobile:getDeviceTime` | 获取被测设备的时间。 https://momentjs.com/docs/ 是受支持的日期时间格式说明符的完整列表。默认是ISO-8601的格式`YYYY-MM-DDTHH:mm:ssZ` | `{format}` |  `{format: 'YYYY-MM'}` |
-| `mobile:startAudioRecording` | 开始录制音频流。阅读 [Audio Capture From iOS Simulators and Real Devices](/docs/en/writing-running-appium/ios/audio-capture.md) 以获得更多细节 | | |
-| `mobile:stopAudioRecording` | 停止并存储录制的音频流。 阅读[Audio Capture From iOS Simulators and Real Devices](/docs/en/writing-running-appium/ios/audio-capture.md) 以获得更多细节 | | |
+| `mobile:startAudioRecording` | 开始录制音频流。阅读 [Audio Capture From iOS Simulators and Real Devices](/docs/cn/writing-running-appium/ios/audio-capture.md) 以获得更多细节 | | |
+| `mobile:stopAudioRecording` | 停止并存储录制的音频流。 阅读[Audio Capture From iOS Simulators and Real Devices](/docs/cn/writing-running-appium/ios/audio-capture.md) 以获得更多细节 | | |
 
 ### Android
 
 | 指令 | 描述 | 参数 | 参数示例 |
 | ------- | ----------- | -------- | ---------------- |
-| `mobile:shell` | 执行 [ADB shell](https://developer.android.com/studio/command-line/adb#shellcommands) 命令(需要启动[insecure feature](/docs/en/writing-running-appium/security.md) `adb_shell` ) | 阅读 [this page](/docs/en/writing-running-appium/android/android-shell.md) | `{'command': 'echo', 'args': ['arg1', 'arg2']}` |
+| `mobile:shell` | 执行 [ADB shell](https://developer.android.com/studio/command-line/adb#shellcommands) 命令(需要启动[insecure feature](/docs/cn/writing-running-appium/security.md) `adb_shell` ) | 阅读 [this page](/docs/cn/writing-running-appium/android/android-shell.md) | `{'command': 'echo', 'args': ['arg1', 'arg2']}` |
 | `mobile:startLogsBroadcast` | 启动IOS系统广播日志，输出地址`/ws/session/:sessionId:/appium/device/logcat` | <none> | <none> |
 | `mobile:stopLogsBroadcast` | 停止已启动的IOS系统广播日志 | <none> | <none> |
 | `mobile:performEditorAction` | 在焦点输入字段上执行给定的编辑器操作。支持以下操作名称：`normal, unspecified, none, go, search, send, next, done, previous`. | `{action}` | `{action: "previous"}`|
@@ -147,11 +147,11 @@ driver.ExecuteScript("mobile:scroll", new Dictionary<string, string> { { "direct
 | `mobile:dismissAlert` | 取消屏幕上的警报 | Optional button label to click on | <none> |
 | `mobile:scrollBackTo` | 从一个元素滚动到另一个元素 | `{elementId, elementToId}` | `{elementId: 2, elementToId: 1}` |
 | `mobile:scroll` | 从Appium 1.18.0开始，滚动给定的可滚动元素，直到可以看到按策略和选择器指定的元素标识符为止。可选的max Swipes属性可以限制滚动动作的数量。它接受一个可选的元素属性，该属性应该是元素标识符并且可以滚动。如果没有此属性，Appium将选择第一个当前可用的可滚动容器。请阅读[appium-uiautomator2-driver](https://github.com/appium/appium-uiautomator2-driver/blob/master/lib/commands/general.js)中的“移动滚动”部分以了解更多详细信息 | `{element, strategy, selector, maxSwipes}` | `{strategy: 'accessibility id', selector: 'target content description'}` |
-| `mobile:viewportScreenshot` | 类似于[屏幕截图]((/docs/en/commands/session/screenshot.md))，但仅包含当前视图窗口的内容 | <none> | <none> |
+| `mobile:viewportScreenshot` | 类似于[屏幕截图]((/docs/cn/commands/session/screenshot.md))，但仅包含当前视图窗口的内容 | <none> | <none> |
 | `mobile:viewportRect` | 返回自Appium 1.18.0开始的视图窗口的坐标和大小。返回类型是[general.js](https://github.com/appium/appium-uiautomator2-driver/blob/master/lib/commands/general.js)中定义的Rectangle。 | <none> | <none> |
 | `mobile:deepLink` | 打开深层链接URL 测试效果：[Instant Apps](https://support.google.com/googleplay/answer/7240211?hl=en) | `{url, package}` | `{url: "https://www.site.com/", package: "com.site.SomeAndroidPackage"}` |
 | `mobile:deviceInfo` | 获取设备信息，例如制造商，型号，时区和区域设置。阅读获取[GetDeviceInfo](https://github.com/appium/appium-uiautomator2-server/blob/master/app/src/main/java/io/appium/uiautomator2/handler/GetDeviceInfo.java)以获取更多详细信息。 | <none> | <none> |
-| `mobile:type` | 将给定的Unicode字符串键入焦点字段。 Unicode键盘功能和发送键的组合可替代文本字段内容。 W3C操作中的[send keys](https://appium.io/docs/en/commands/element/actions/send-keys/)仅适用于ASCII。此命令可帮助此类情况将unicode文本内容附加到焦点字段中。 | `{text}` | `{text: 'happy testing'}` |
+| `mobile:type` | 将给定的Unicode字符串键入焦点字段。 Unicode键盘功能和发送键的组合可替代文本字段内容。 W3C操作中的[send keys](https://appium.io/docs/cn/commands/element/actions/send-keys/)仅适用于ASCII。此命令可帮助此类情况将unicode文本内容附加到焦点字段中。 | `{text}` | `{text: 'happy testing'}` |
 
 ### Android (Espresso only)
 
@@ -183,13 +183,13 @@ driver.ExecuteScript("mobile:scroll", new Dictionary<string, string> { { "direct
 
 |平台|Driver|Platform Versions|Appium Version|Driver Version|
 |--------|----------------|------|--------------|--------------|
-| iOS | [XCUITest](/docs/en/drivers/ios-xcuitest.md) | 9.3+ | 1.6.0+ | All |
-|  | [UIAutomation](/docs/en/drivers/ios-uiautomation.md) | 8.0 to 9.3 | All | All |
-| Android | [Espresso](/docs/en/drivers/android-espresso.md) | ?+ | 1.9.0+ | All |
-|  | [UiAutomator2](/docs/en/drivers/android-uiautomator2.md) | ?+ | 1.6.0+ | All |
-|  | [UiAutomator](/docs/en/drivers/android-uiautomator.md) | 4.3+ | All | All |
-| Mac | [Mac](/docs/en/drivers/mac.md) | ?+ | 1.6.4+ | All |
-| Windows | [Windows](/docs/en/drivers/windows.md) | 10+ | 1.6.0+ | All |
+| iOS | [XCUITest](/docs/cn/drivers/ios-xcuitest.md) | 9.3+ | 1.6.0+ | All |
+|  | [UIAutomation](/docs/cn/drivers/ios-uiautomation.md) | 8.0 to 9.3 | All | All |
+| Android | [Espresso](/docs/cn/drivers/android-espresso.md) | ?+ | 1.9.0+ | All |
+|  | [UiAutomator2](/docs/cn/drivers/android-uiautomator2.md) | ?+ | 1.6.0+ | All |
+|  | [UiAutomator](/docs/cn/drivers/android-uiautomator.md) | 4.3+ | All | All |
+| Mac | [Mac](/docs/cn/drivers/mac.md) | ?+ | 1.6.4+ | All |
+| Windows | [Windows](/docs/cn/drivers/windows.md) | 10+ | 1.6.0+ | All |
 
 
 [//]: # "DO NOT EDIT THIS FILE! This is an auto-generated file. Editing for this document happens in /commands-yml/commands/mobile-command.yml"
